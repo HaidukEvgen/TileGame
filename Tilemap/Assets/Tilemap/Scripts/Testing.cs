@@ -114,6 +114,8 @@ public class Testing : MonoBehaviour {
             Draggable.throwBack = true;
             return;
         }
+        
+        
         //else draw it on the field
         for(int i = 0; i < figureWidth; i++){
             for(int j = 0; j < figureHeight; j++){
