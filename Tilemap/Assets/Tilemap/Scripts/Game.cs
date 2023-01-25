@@ -20,7 +20,7 @@ public class Game {
     private Turns curTurn;
 
     //initialize new game with borad's width and height, players as well as 0's in the cells
-    public Game(int x, int y){
+    public Game(int x, int y, Tilemap tilemap){
         this.boardWidth = x;
         this.boardHeight = y;
         this.player1 = new Player(TileState.firstPlayer);
@@ -29,7 +29,8 @@ public class Game {
         gameBoard = new TileState[boardHeight, boardWidth];
         for(int i = 0; i < boardHeight; i++)
             for(int j = 0; j < boardWidth; j++)
-                gameBoard[i, j] = (int)TileState.none;
+                gameBoard[i, j] = TileState.none;
+        SpawnObstacles(tilemap);
     }
 
     public void SetCurWidth(int x){
@@ -66,6 +67,19 @@ public class Game {
             return random.Next(min, max);
     }
 
+    private void SpawnObstacles(Tilemap tilemap){
+        for(int i = 0; i < boardHeight; i++)
+            for(int j = 0; j < boardWidth; j++){
+                if(GetNum(1, 101) % 10 == 0){
+                    Debug.Log(i + " " + j);
+                    gameBoard[i, j] = TileState.obstacle;
+                    int x = i, y = j;
+                    GetMapXY(ref x, ref y);
+                    tilemap.SetTilemapSprite(x, y, Tilemap.TilemapObject.TilemapSprite.None);
+                }  
+            }
+    }
+
     //check if figure can be placed there where it was left
     public bool CheckFigure(Player player, int x, int y, int width, int height){
         Game.TileState tileState = player.GetTileState(); 
@@ -75,7 +89,7 @@ public class Game {
         Debug.Log(player.GetTileState() == TileState.firstPlayer? "first": "second");
         //check if figure is placed in the corner during fitst turn
         if(player.IsFirstTurn()){
-            if(player.IsUpperPlayer() && x != 0 && y != 0)
+            if(player.IsUpperPlayer() && (x != 0 || y != 0))
                 return false;
             else if(!player.IsUpperPlayer() && (x + height - boardHeight != 0 || y + width - boardWidth != 0))
                 return false; 
@@ -87,20 +101,20 @@ public class Game {
                 //if placed on top of the non empty tile 
                 if (gameBoard[i, j] != TileState.none)
                     return false;
-                    if(!flag){
-                        //if there are same tiles above the figure
-                        if(i == x && i != 0 && gameBoard[i - 1, j] == tileState)
-                            flag = true;
-                        //if there are same tiles on the left of the figure
-                        if(j == y && j != 0 && gameBoard[i, j - 1] == tileState)
-                            flag = true;
-                        //if there are same tiles on the right of the figure
-                        if(j == y + width - 1 && j != boardWidth - 1 && gameBoard[i, j + 1] == tileState)
-                            flag = true;
-                        //if there are same tiles below the figure
-                        if(i == x + height - 1 && i != boardHeight - 1 && gameBoard[i + 1, j] == tileState)
-                            flag = true;
-                    }
+                if(!flag){
+                    //if there are same tiles above the figure
+                    if(i == x && i != 0 && gameBoard[i - 1, j] == tileState)
+                        flag = true;
+                    //if there are same tiles on the left of the figure
+                    if(j == y && j != 0 && gameBoard[i, j - 1] == tileState)
+                        flag = true;
+                    //if there are same tiles on the right of the figure
+                    if(j == y + width - 1 && j != boardWidth - 1 && gameBoard[i, j + 1] == tileState)
+                        flag = true;
+                    //if there are same tiles below the figure
+                    if(i == x + height - 1 && i != boardHeight - 1 && gameBoard[i + 1, j] == tileState)
+                        flag = true;
+                }
             }
         if(!flag)
             return false;
@@ -121,6 +135,12 @@ public class Game {
         int temp = x;
         x = y;
         y = temp; 
+    }
+
+    private void GetMapXY(ref int x, ref int y){
+        int temp = y;
+        y = boardHeight - x - 1;
+        x = temp; 
     }
 
     //change current player's turn and his tile texture

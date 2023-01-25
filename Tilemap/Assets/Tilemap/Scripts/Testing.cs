@@ -38,7 +38,7 @@ public class Testing : MonoBehaviour {
         tilemap.SetTilemapVisual(tilemapVisual);
 
         //create gameboard matrix 
-        game = new Game(GAME_WIDTH, GAME_HEIGHT);
+        game = new Game(GAME_WIDTH, GAME_HEIGHT, tilemap);
 
         //create tilemap for current figure
         curFigure = new Tilemap(FIGURE_SIZE, FIGURE_SIZE, 1f, new Vector3(0, 0));
