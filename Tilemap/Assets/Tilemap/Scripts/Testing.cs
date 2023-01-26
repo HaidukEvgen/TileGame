@@ -99,10 +99,8 @@ public class Testing : MonoBehaviour {
 
         Draggable.ChangeCollider(x, y);
         if(!game.GetCurPlayer().IsFirstTurn()){
-            if(game.CanBePlaced(x, y))
-                Debug.Log("can be placed");
-            else
-                Debug.Log("can not be placed");
+            if(!game.CanBePlaced(x, y))
+                CMDebug.TextPopupMouse("can not be placed");
         }
     }
 
@@ -112,7 +110,7 @@ public class Testing : MonoBehaviour {
         int figureHeight = game.GetCurHeight();
         Player player = game.GetCurPlayer();
         if(player.IsFirstTurn()){
-            MakeFirstTurn(figureWidth, figureHeight, player, ref tilemapSprite);
+            MakeFirstTurn(figureWidth, figureHeight, ref player, ref tilemapSprite);
             player.FirstTurnDone();
         }
         position += new Vector3(0, figureHeight, 0);
@@ -140,7 +138,7 @@ public class Testing : MonoBehaviour {
         CreateNextFigure();
     }
 
-    private void MakeFirstTurn(int figureWidth, int figureHeight, Player player, ref Tilemap.TilemapObject.TilemapSprite tilemapSprite){
+    private void MakeFirstTurn(int figureWidth, int figureHeight, ref Player player, ref Tilemap.TilemapObject.TilemapSprite tilemapSprite){
         int x = 0, y = 0;
         if (game.IsFirstPlayerTurn()){
             x = 0;

@@ -89,10 +89,10 @@ public class Game {
         tilemap.SetTilemapSprite(x, y, tilemapSprite);
     }
 
-    public bool CanBePlaced(int x, int y){
-        for(int i = 0; i < boardHeight; i++)
-            for(int j = 0; j < boardWidth; j++)
-                if(CheckFigure(this.GetCurPlayer(), i, j, x, y))
+    public bool CanBePlaced(int width, int height){
+        for(int x = 0; x < boardWidth; x++)
+            for(int y = 0; y < boardHeight; y++)
+                if(CheckFigure(this.GetCurPlayer(), x, y, width, height))
                     return true;
         return false;
     }
