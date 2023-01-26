@@ -29,6 +29,10 @@ public class Player{
         return this.points;
     }
 
+    public void AddPoints(int points){
+        this.points += points;
+    }
+
     public void FirstTurnDone(){
         this.firstTurn = false;
     }

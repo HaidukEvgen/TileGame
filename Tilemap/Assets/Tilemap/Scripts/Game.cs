@@ -68,16 +68,25 @@ public class Game {
     }
 
     private void SpawnObstacles(Tilemap tilemap){
-        for(int i = 0; i < boardHeight; i++)
-            for(int j = 0; j < boardWidth; j++){
-                if(GetNum(1, 101) % 10 == 0){
-                    Debug.Log(i + " " + j);
-                    gameBoard[i, j] = TileState.obstacle;
-                    int x = i, y = j;
-                    GetMapXY(ref x, ref y);
-                    tilemap.SetTilemapSprite(x, y, Tilemap.TilemapObject.TilemapSprite.None);
+        int count = 3;
+        SetObstacle(boardHeight / 2, boardWidth / 2, tilemap, Tilemap.TilemapObject.TilemapSprite.None);
+        SetObstacle(boardHeight / 4, 3 * boardWidth / 4, tilemap, Tilemap.TilemapObject.TilemapSprite.None);
+        SetObstacle(3 * boardHeight / 4, boardWidth / 4, tilemap, Tilemap.TilemapObject.TilemapSprite.None);      
+        for(int i = 2; i < boardHeight - 2; i++)
+            for(int j = 2; j < boardWidth - 2; j++){
+                if(count > 6)
+                    return;
+                if(GetNum(0, 11) == 1 && i + j > (boardHeight + boardWidth - 8) / 2 && i + j < (boardHeight + boardWidth + 5) / 2){
+                    count++;
+                    SetObstacle(i, j, tilemap, Tilemap.TilemapObject.TilemapSprite.None);
                 }  
             }
+    }
+
+    private void SetObstacle(int x, int y, Tilemap tilemap, Tilemap.TilemapObject.TilemapSprite tilemapSprite){
+        gameBoard[x, y] = TileState.obstacle;
+        GetMapXY(ref x, ref y);
+        tilemap.SetTilemapSprite(x, y, tilemapSprite);
     }
 
     //check if figure can be placed there where it was left
