@@ -98,6 +98,12 @@ public class Testing : MonoBehaviour {
         curFigure.SetTilemapVisual(curFigureVisual);
 
         Draggable.ChangeCollider(x, y);
+        if(!game.GetCurPlayer().IsFirstTurn()){
+            if(game.CanBePlaced(x, y))
+                Debug.Log("can be placed");
+            else
+                Debug.Log("can not be placed");
+        }
     }
 
     //is called after player left the figure on the board

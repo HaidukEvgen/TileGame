@@ -89,13 +89,21 @@ public class Game {
         tilemap.SetTilemapSprite(x, y, tilemapSprite);
     }
 
+    public bool CanBePlaced(int x, int y){
+        for(int i = 0; i < boardHeight; i++)
+            for(int j = 0; j < boardWidth; j++)
+                if(CheckFigure(this.GetCurPlayer(), i, j, x, y))
+                    return true;
+        return false;
+    }
+
     //check if figure can be placed there where it was left
     public bool CheckFigure(Player player, int x, int y, int width, int height){
         Game.TileState tileState = player.GetTileState(); 
         GetBoardXY(ref x, ref y);
         if(x < 0 || y < 0 || x + height > boardHeight || y + width > boardWidth)
             return false;
-        Debug.Log(player.GetTileState() == TileState.firstPlayer? "first": "second");
+        //Debug.Log(player.GetTileState() == TileState.firstPlayer? "first": "second");
         //check if figure is placed in the corner during fitst turn
         if(player.IsFirstTurn()){
             if(player.IsUpperPlayer() && (x != 0 || y != 0))
