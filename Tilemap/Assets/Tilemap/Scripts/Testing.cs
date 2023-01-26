@@ -108,10 +108,13 @@ public class Testing : MonoBehaviour {
 
     //is called after player left the figure on the board
     public void processTurn(Vector3 position){
-        //Vector3 mouseWorldPosition = UtilsClass.GetMouseWorldPosition();
         int figureWidth = game.GetCurWidth();
         int figureHeight = game.GetCurHeight();
         Player player = game.GetCurPlayer();
+        if(player.IsFirstTurn()){
+            MakeFirstTurn(figureWidth, figureHeight, player, ref tilemapSprite);
+            player.FirstTurnDone();
+        }
         position += new Vector3(0, figureHeight, 0);
         int x = 0, y = 0;
         tilemap.GetCoords(position, out x, out y);
@@ -128,8 +131,6 @@ public class Testing : MonoBehaviour {
         }
         player.AddPoints(figureWidth * figureHeight);
         //add this figure to the matrix
-        if(player.IsFirstTurn())
-            player.FirstTurnDone();
         //change players
         game.ChangeTurn(ref tilemapSprite);
         //mark figure in matrix
@@ -138,4 +139,27 @@ public class Testing : MonoBehaviour {
         //and create next
         CreateNextFigure();
     }
+
+    private void MakeFirstTurn(int figureWidth, int figureHeight, Player player, ref Tilemap.TilemapObject.TilemapSprite tilemapSprite){
+        int x = 0, y = 0;
+        if (game.IsFirstPlayerTurn()){
+            x = 0;
+            y = GAME_HEIGHT - 1;
+        } else {
+            x = GAME_WIDTH - figureWidth;
+            y = figureHeight - 1;
+        }
+        for(int i = 0; i < figureWidth; i++){
+            for(int j = 0; j < figureHeight; j++){
+                tilemap.SetTilemapSprite(x + i, y - j, tilemapSprite);
+            }
+        }
+        player.AddPoints(figureWidth * figureHeight);
+        game.ChangeTurn(ref tilemapSprite);
+        game.AddFigure(player, x, y, figureWidth, figureHeight);
+        Draggable.throwBack = true;
+        CreateNextFigure();
+    }
+
+
 }
