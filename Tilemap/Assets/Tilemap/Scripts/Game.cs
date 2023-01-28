@@ -61,6 +61,10 @@ public class Game {
             return this.curTurn == Turns.firstPlTurn;
     }
 
+    public string GetScore(){
+        return player1.GetPoints().ToString() + " : " + player2.GetPoints().ToString();
+    }
+
     // get random num (dice throw result)
     public int GetNum(int min, int max){
         System.Random random = new System.Random();

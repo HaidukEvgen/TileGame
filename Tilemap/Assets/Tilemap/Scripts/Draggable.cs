@@ -40,7 +40,7 @@ public class Draggable : MonoBehaviour
     }
 
     private void ThrowFigureBack(){
-        transform.position = new Vector3(6, 0, 0);
+        transform.position = new Vector3(6, -4, 0);
     }
 
     //change figure's collider according to its size

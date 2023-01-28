@@ -23,7 +23,7 @@ public class Testing : MonoBehaviour {
     public const int GAME_POS_X = -16;
     public const int GAME_POS_Y = -7;
 
-    public const int GAME_HEIGHT = 15;
+    public const int GAME_HEIGHT = 14;
     public const int GAME_WIDTH = 20;
 
     public const int FIGURE_SIZE = 6;
@@ -39,6 +39,7 @@ public class Testing : MonoBehaviour {
 
         //create gameboard matrix 
         game = new Game(GAME_WIDTH, GAME_HEIGHT, tilemap);
+        UIController.gm = game;
 
         //create tilemap for current figure
         curFigure = new Tilemap(FIGURE_SIZE, FIGURE_SIZE, 1f, new Vector3(0, 0));
