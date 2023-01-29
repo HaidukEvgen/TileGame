@@ -8,6 +8,8 @@ public class Draggable : MonoBehaviour
     private Vector3 mousePositionOffset;
     private static BoxCollider2D m_collider;
     public static bool throwBack = false;
+    public static int height;
+    public static int width;
 
     // set collider for the first figure
     void Awake() {
@@ -40,7 +42,9 @@ public class Draggable : MonoBehaviour
     }
 
     private void ThrowFigureBack(){
-        transform.position = new Vector3(6, -4, 0);
+        float x = 10f - width/2;
+        float y = 0f - height/2;
+        transform.position = new Vector3(x, y, 0);
     }
 
     //change figure's collider according to its size

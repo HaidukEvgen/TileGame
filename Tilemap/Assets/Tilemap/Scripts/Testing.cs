@@ -88,10 +88,13 @@ public class Testing : MonoBehaviour {
 
     //create next figure: get its size, draw it and change its collider
     private void CreateNextFigure(){
+        Draggable.throwBack = true;
         int x = game.GetNum(1, 7);
         int y = game.GetNum(1, 7);
         game.SetCurWidth(x);
         game.SetCurHeight(y);
+        Draggable.width = x;
+        Draggable.height = y;
 
         tilemapSprite = game.IsFirstPlayerTurn()? Tilemap.TilemapObject.TilemapSprite.Ground: Tilemap.TilemapObject.TilemapSprite.Dirt;
         
@@ -99,6 +102,28 @@ public class Testing : MonoBehaviour {
         curFigure.SetTilemapVisual(curFigureVisual);
 
         Draggable.ChangeCollider(x, y);
+        if(!game.GetCurPlayer().IsFirstTurn()){
+            if(!game.CanBePlaced(x, y))
+                CMDebug.TextPopupMouse("can not be placed");
+        }
+    }
+
+    //change rotate figure: change its size, draw it and change its collider
+    public void ChangeRotateFigure(){
+        int x = game.GetCurHeight();
+        int y = game.GetCurWidth();
+        game.SetCurWidth(x);
+        game.SetCurHeight(y);
+        Draggable.width = x;
+        Draggable.height = y;
+
+        tilemapSprite = game.IsFirstPlayerTurn()? Tilemap.TilemapObject.TilemapSprite.Ground: Tilemap.TilemapObject.TilemapSprite.Dirt;
+        
+        curFigure.DrawFigure(x, y, tilemapSprite);
+        curFigure.SetTilemapVisual(curFigureVisual);
+
+        Draggable.ChangeCollider(x, y);
+        Draggable.throwBack = true;
         if(!game.GetCurPlayer().IsFirstTurn()){
             if(!game.CanBePlaced(x, y))
                 CMDebug.TextPopupMouse("can not be placed");
