@@ -9,7 +9,8 @@ public class Game {
     private int curWidth;
     private int curHeight;
     private Player player1;
-    private Player player2;
+    private Player player2; 
+    public int round;
     public enum Turns{firstPlTurn, secondPlTurn};
     public enum TileState{
         none,
@@ -26,6 +27,7 @@ public class Game {
         this.player1 = new Player(TileState.firstPlayer);
         this.player2 = new Player(TileState.secondPlayer);
         this.curTurn = GetNum(0, 2) == 0? Turns.firstPlTurn: Turns.secondPlTurn;
+        this.round = 0;
         gameBoard = new TileState[boardHeight, boardWidth];
         for(int i = 0; i < boardHeight; i++)
             for(int j = 0; j < boardWidth; j++)

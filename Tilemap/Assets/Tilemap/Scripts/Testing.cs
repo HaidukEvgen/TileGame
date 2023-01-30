@@ -44,7 +44,10 @@ public class Testing : MonoBehaviour {
         //create tilemap for current figure
         curFigure = new Tilemap(FIGURE_SIZE, FIGURE_SIZE, 1f, new Vector3(0, 0));
 
-        CreateNextFigure();
+        int x = game.GetNum(1, 7);
+        int y = game.GetNum(1, 7);
+
+        CreateNextFigure(x, y);
     }
 
     private void Update() {
@@ -87,10 +90,8 @@ public class Testing : MonoBehaviour {
     } 
 
     //create next figure: get its size, draw it and change its collider
-    private void CreateNextFigure(){
+    private void CreateNextFigure(int x, int y){
         Draggable.throwBack = true;
-        int x = game.GetNum(1, 7);
-        int y = game.GetNum(1, 7);
         game.SetCurWidth(x);
         game.SetCurHeight(y);
         Draggable.width = x;
@@ -102,38 +103,28 @@ public class Testing : MonoBehaviour {
         curFigure.SetTilemapVisual(curFigureVisual);
 
         Draggable.ChangeCollider(x, y);
-        if(!game.GetCurPlayer().IsFirstTurn()){
-            if(!game.CanBePlaced(x, y))
-                CMDebug.TextPopupMouse("can not be placed");
-        }
     }
 
     //change rotate figure: change its size, draw it and change its collider
     public void ChangeRotateFigure(){
         int x = game.GetCurHeight();
         int y = game.GetCurWidth();
-        game.SetCurWidth(x);
-        game.SetCurHeight(y);
-        Draggable.width = x;
-        Draggable.height = y;
-
-        tilemapSprite = game.IsFirstPlayerTurn()? Tilemap.TilemapObject.TilemapSprite.Ground: Tilemap.TilemapObject.TilemapSprite.Dirt;
-        
-        curFigure.DrawFigure(x, y, tilemapSprite);
-        curFigure.SetTilemapVisual(curFigureVisual);
-
-        Draggable.ChangeCollider(x, y);
-        Draggable.throwBack = true;
-        if(!game.GetCurPlayer().IsFirstTurn()){
-            if(!game.CanBePlaced(x, y))
-                CMDebug.TextPopupMouse("can not be placed");
-        }
+        CreateNextFigure(x, y);
     }
 
     //is called after player left the figure on the board
     public void processTurn(Vector3 position){
         int figureWidth = game.GetCurWidth();
         int figureHeight = game.GetCurHeight();
+
+        if(!game.GetCurPlayer().IsFirstTurn()){
+            if(!game.CanBePlaced(figureWidth, figureHeight)){
+                game.ChangeTurn(ref tilemapSprite);
+                CreateNextFigure(game.GetNum(1, 7), game.GetNum(1, 7));
+                return;   
+            }   
+        }
+
         Player player = game.GetCurPlayer();
         if(player.IsFirstTurn()){
             MakeFirstTurn(figureWidth, figureHeight, ref player, ref tilemapSprite);
@@ -161,7 +152,7 @@ public class Testing : MonoBehaviour {
         game.AddFigure(player, x, y, figureWidth, figureHeight);
         Draggable.throwBack = true;
         //and create next
-        CreateNextFigure();
+        CreateNextFigure(game.GetNum(1, 7), game.GetNum(1, 7));
     }
 
     private void MakeFirstTurn(int figureWidth, int figureHeight, ref Player player, ref Tilemap.TilemapObject.TilemapSprite tilemapSprite){
@@ -182,7 +173,7 @@ public class Testing : MonoBehaviour {
         game.ChangeTurn(ref tilemapSprite);
         game.AddFigure(player, x, y, figureWidth, figureHeight);
         Draggable.throwBack = true;
-        CreateNextFigure();
+        CreateNextFigure(game.GetNum(1, 7), game.GetNum(1, 7));
     }
 
 
