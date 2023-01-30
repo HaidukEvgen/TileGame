@@ -42,7 +42,7 @@ public class Draggable : MonoBehaviour
     }
 
     private void ThrowFigureBack(){
-        float x = 10f - width/2;
+        float x = 10.5f - width/2;
         float y = 0f - height/2;
         transform.position = new Vector3(x, y, 0);
     }
