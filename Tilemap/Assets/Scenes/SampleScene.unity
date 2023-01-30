@@ -1298,7 +1298,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.67058825}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2007,3 +2007,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scoretxt: {fileID: 1674311587}
   pausePanel: {fileID: 1547062099}
+  curFig: {fileID: 1691645727}
+  tilemap: {fileID: 1884131565}
