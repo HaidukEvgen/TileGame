@@ -121,9 +121,15 @@ public class Testing : MonoBehaviour {
             if(!game.CanBePlaced(figureWidth, figureHeight)){
                 game.ChangeTurn(ref tilemapSprite);
                 CreateNextFigure(game.GetNum(1, 7), game.GetNum(1, 7));
+                game.skipNum++;
+                if(game.skipNum == 2){
+                    game.MakeNewRound();
+                }
                 return;   
             }   
         }
+
+        game.skipNum = 0;
 
         Player player = game.GetCurPlayer();
         if(player.IsFirstTurn()){
@@ -175,6 +181,4 @@ public class Testing : MonoBehaviour {
         Draggable.throwBack = true;
         CreateNextFigure(game.GetNum(1, 7), game.GetNum(1, 7));
     }
-
-
 }

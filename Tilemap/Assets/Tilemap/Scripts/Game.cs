@@ -10,7 +10,11 @@ public class Game {
     private int curHeight;
     private Player player1;
     private Player player2; 
+    public bool inGame;
     public int round;
+    public int skipNum;
+    private int gameScore;
+    public int curWinner;
     public enum Turns{firstPlTurn, secondPlTurn};
     public enum TileState{
         none,
@@ -27,7 +31,11 @@ public class Game {
         this.player1 = new Player(TileState.firstPlayer);
         this.player2 = new Player(TileState.secondPlayer);
         this.curTurn = GetNum(0, 2) == 0? Turns.firstPlTurn: Turns.secondPlTurn;
-        this.round = 0;
+        this.round = 1;
+        this.inGame = true;
+        this.skipNum = 0;
+        this.gameScore = 0;
+        this.curWinner = 0;
         gameBoard = new TileState[boardHeight, boardWidth];
         for(int i = 0; i < boardHeight; i++)
             for(int j = 0; j < boardWidth; j++)
@@ -172,5 +180,20 @@ public class Game {
         tilemapSprite = this.IsFirstPlayerTurn()? Tilemap.TilemapObject.TilemapSprite.Ground: Tilemap.TilemapObject.TilemapSprite.Dirt;
     }
 
+    public void MakeNewRound(){
+        this.inGame = false;
+        this.round++;
+        
+        if(this.player1.GetPoints() > this.player2.GetPoints()){
+            this.gameScore++;
+            this.curWinner = 1;
+        }
+        else if(this.player2.GetPoints() > this.player1.GetPoints()){
+            this.gameScore--;
+            this.curWinner = 2;
+        }
 
+        this.player1.SetPoints(0);
+        this.player2.SetPoints(0);
+    }
 }

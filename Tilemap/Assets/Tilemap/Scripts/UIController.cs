@@ -7,15 +7,25 @@ using UnityEngine.SceneManagement;
 public class UIController : MonoBehaviour
 {
     public Text scoretxt;
+    public Text roundtxt;
+    public Text winnertxt;
     public GameObject pausePanel;
     public GameObject curFig;
     public GameObject tilemap;
+    public GameObject endRoundPanel;
     public static Game gm;
-
+    private bool notOpenRoundPanel = true;
+    
     // Update is called once per frame
     void Update()
     {
         scoretxt.text = "Score: "  + gm.GetScore();
+        roundtxt.text = "Round: " + gm.round.ToString();
+
+        if(!gm.inGame && notOpenRoundPanel){
+            roundEnd(gm.round);
+            notOpenRoundPanel = false;
+        }
     }
 
     public void PauseGame(){
@@ -34,5 +44,22 @@ public class UIController : MonoBehaviour
 
     public void GotoMenu(){
         SceneManager.LoadScene("StartScene");
+    }
+
+    public void roundEnd(int round){
+        if(gm.curWinner == 1){
+            winnertxt.text = "First player wins this round";
+        }
+        else{
+            winnertxt.text = "Second player wins this round";
+        }
+
+        curFig.SetActive(false);
+        endRoundPanel.SetActive(true);
+    }
+
+    public void CountinueGameRound(){
+        endRoundPanel.SetActive(false);
+        curFig.SetActive(true);
     }
 }
