@@ -191,7 +191,12 @@ public class Game {
             this.gameScore--;
             this.curWinner = 2;
         }
+        else{
+            this.curWinner = 0;
+        }
+    }
 
+    public void CleanOldVal(Tilemap tilemap){
         this.player1.SetPoints(0);
         this.player1.SetFirstMove();
 
@@ -210,6 +215,5 @@ public class Game {
             this.round++;
         }
         SpawnObstacles(tilemap);
-
     }
 }

@@ -14,6 +14,7 @@ public class UIController : MonoBehaviour
     public GameObject tilemap;
     public GameObject endRoundPanel;
     public static Game gm;
+    public static Tilemap tm;
     private bool notOpenRoundPanel = true;
     
     // Update is called once per frame
@@ -47,21 +48,26 @@ public class UIController : MonoBehaviour
     }
 
     public void roundEnd(int round){
-        Debug.Log(round);
-        if (round == 0){
+        if (round == 3){
             if(gm.gameScore > 0){
                 winnertxt.text = "The first player wins the game";
             }
-            else{
+            else if (gm.gameScore < 0){
                 winnertxt.text = "The second player wins the game";
+            }
+            else{
+                winnertxt.text = "Draw";
             }
             
         }
         else if(gm.curWinner == 1){
             winnertxt.text = "First player wins this round";
         }
-        else{
+        else if (gm.curWinner == 2){
             winnertxt.text = "Second player wins this round";
+        }
+        else{
+            winnertxt.text = "Draw";
         }
 
         curFig.SetActive(false);
@@ -74,5 +80,6 @@ public class UIController : MonoBehaviour
         gm.inGame = true;
         gm.skipNum = 0;
         notOpenRoundPanel = true;
+        gm.CleanOldVal(tm);
     }
 }

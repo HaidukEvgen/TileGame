@@ -33,6 +33,7 @@ public class Testing : MonoBehaviour {
     private void Start() {
         //create tilemap of the game board and fill with gray sprites
         tilemap = new Tilemap(GAME_WIDTH, GAME_HEIGHT, CELL_SIZE, new Vector3(GAME_POS_X, GAME_POS_Y));
+        UIController.tm = tilemap;
         tilemapSprite = Tilemap.TilemapObject.TilemapSprite.Path;
         tilemap.FillMap(tilemapSprite);
         tilemap.SetTilemapVisual(tilemapVisual);
