@@ -13,7 +13,7 @@ public class Game {
     public bool inGame;
     public int round;
     public int skipNum;
-    private int gameScore;
+    public int gameScore;
     public int curWinner;
     public enum Turns{firstPlTurn, secondPlTurn};
     public enum TileState{
@@ -180,9 +180,8 @@ public class Game {
         tilemapSprite = this.IsFirstPlayerTurn()? Tilemap.TilemapObject.TilemapSprite.Ground: Tilemap.TilemapObject.TilemapSprite.Dirt;
     }
 
-    public void MakeNewRound(){
+    public void MakeNewRound(Tilemap tilemap){
         this.inGame = false;
-        this.round++;
         
         if(this.player1.GetPoints() > this.player2.GetPoints()){
             this.gameScore++;
@@ -194,6 +193,23 @@ public class Game {
         }
 
         this.player1.SetPoints(0);
+        this.player1.SetFirstMove();
+
         this.player2.SetPoints(0);
+        this.player2.SetFirstMove();
+
+        tilemap.FillMap(Tilemap.TilemapObject.TilemapSprite.Path);
+        for(int i = 0; i < boardHeight; i++)
+            for(int j = 0; j < boardWidth; j++)
+                gameBoard[i, j] = TileState.none;
+
+        if(this.round == 3){
+            this.round = 0;
+        }
+        else{
+            this.round++;
+        }
+        SpawnObstacles(tilemap);
+
     }
 }

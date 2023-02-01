@@ -123,7 +123,7 @@ public class Testing : MonoBehaviour {
                 CreateNextFigure(game.GetNum(1, 7), game.GetNum(1, 7));
                 game.skipNum++;
                 if(game.skipNum == 2){
-                    game.MakeNewRound();
+                    game.MakeNewRound(tilemap);
                 }
                 return;   
             }   

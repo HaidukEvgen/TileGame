@@ -13,6 +13,10 @@ public class Player{
         this.firstTurn = true;
     }
 
+    public void SetFirstMove(){
+        this.firstTurn = true;
+    }
+
     public void SetTileState(Game.TileState tileState){
         this.tileState = tileState;
     }

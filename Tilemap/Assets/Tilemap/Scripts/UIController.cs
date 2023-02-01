@@ -47,7 +47,17 @@ public class UIController : MonoBehaviour
     }
 
     public void roundEnd(int round){
-        if(gm.curWinner == 1){
+        Debug.Log(round);
+        if (round == 0){
+            if(gm.gameScore > 0){
+                winnertxt.text = "The first player wins the game";
+            }
+            else{
+                winnertxt.text = "The second player wins the game";
+            }
+            
+        }
+        else if(gm.curWinner == 1){
             winnertxt.text = "First player wins this round";
         }
         else{
@@ -61,5 +71,8 @@ public class UIController : MonoBehaviour
     public void CountinueGameRound(){
         endRoundPanel.SetActive(false);
         curFig.SetActive(true);
+        gm.inGame = true;
+        gm.skipNum = 0;
+        notOpenRoundPanel = true;
     }
 }
