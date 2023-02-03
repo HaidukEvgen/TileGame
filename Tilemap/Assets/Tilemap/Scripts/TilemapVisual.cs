@@ -74,7 +74,7 @@ public class TilemapVisual : MonoBehaviour {
                 Tilemap.TilemapObject gridObject = grid.GetGridObject(x, y);
                 Tilemap.TilemapObject.TilemapSprite tilemapSprite = gridObject.GetTilemapSprite();
                 Vector2 gridUV00, gridUV11;
-                if (tilemapSprite == Tilemap.TilemapObject.TilemapSprite.None) {
+                if (tilemapSprite == Tilemap.TilemapObject.TilemapSprite.Obstacle) {
                     gridUV00 = Vector2.zero;
                     gridUV11 = Vector2.zero;
                     quadSize = Vector3.zero;

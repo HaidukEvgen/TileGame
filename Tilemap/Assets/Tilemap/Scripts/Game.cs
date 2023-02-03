@@ -83,16 +83,16 @@ public class Game {
 
     private void SpawnObstacles(Tilemap tilemap){
         int count = 3;
-        SetObstacle(boardHeight / 2, boardWidth / 2, tilemap, Tilemap.TilemapObject.TilemapSprite.None);
-        SetObstacle(boardHeight / 4, 3 * boardWidth / 4, tilemap, Tilemap.TilemapObject.TilemapSprite.None);
-        SetObstacle(3 * boardHeight / 4, boardWidth / 4, tilemap, Tilemap.TilemapObject.TilemapSprite.None);      
+        SetObstacle(boardHeight / 2, boardWidth / 2, tilemap, Tilemap.TilemapObject.TilemapSprite.Obstacle);
+        SetObstacle(boardHeight / 4, 3 * boardWidth / 4, tilemap, Tilemap.TilemapObject.TilemapSprite.Obstacle);
+        SetObstacle(3 * boardHeight / 4, boardWidth / 4, tilemap, Tilemap.TilemapObject.TilemapSprite.Obstacle);      
         for(int i = 2; i < boardHeight - 2; i++)
             for(int j = 2; j < boardWidth - 2; j++){
                 if(count > 6)
                     return;
                 if(GetNum(0, 11) == 1 && i + j > (boardHeight + boardWidth - 8) / 2 && i + j < (boardHeight + boardWidth + 5) / 2){
                     count++;
-                    SetObstacle(i, j, tilemap, Tilemap.TilemapObject.TilemapSprite.None);
+                    SetObstacle(i, j, tilemap, Tilemap.TilemapObject.TilemapSprite.Obstacle);
                 }  
             }
     }
@@ -117,7 +117,6 @@ public class Game {
         GetBoardXY(ref x, ref y);
         if(x < 0 || y < 0 || x + height > boardHeight || y + width > boardWidth)
             return false;
-        //Debug.Log(player.GetTileState() == TileState.firstPlayer? "first": "second");
         //check if figure is placed in the corner during fitst turn
         if(player.IsFirstTurn()){
             if(player.IsUpperPlayer() && (x != 0 || y != 0))
@@ -177,7 +176,7 @@ public class Game {
     //change current player's turn and his tile texture
     public void ChangeTurn(ref Tilemap.TilemapObject.TilemapSprite tilemapSprite){
         curTurn = this.IsFirstPlayerTurn()? Turns.secondPlTurn: Turns.firstPlTurn;
-        tilemapSprite = this.IsFirstPlayerTurn()? Tilemap.TilemapObject.TilemapSprite.Ground: Tilemap.TilemapObject.TilemapSprite.Dirt;
+        tilemapSprite = this.IsFirstPlayerTurn()? Tilemap.TilemapObject.TilemapSprite.Blue: Tilemap.TilemapObject.TilemapSprite.Red;
     }
 
     public void MakeNewRound(Tilemap tilemap){
@@ -203,7 +202,7 @@ public class Game {
         this.player2.SetPoints(0);
         this.player2.SetFirstMove();
 
-        tilemap.FillMap(Tilemap.TilemapObject.TilemapSprite.Path);
+        tilemap.FillMap(Tilemap.TilemapObject.TilemapSprite.None);
         for(int i = 0; i < boardHeight; i++)
             for(int j = 0; j < boardWidth; j++)
                 gameBoard[i, j] = TileState.none;

@@ -34,7 +34,7 @@ public class Testing : MonoBehaviour {
         //create tilemap of the game board and fill with gray sprites
         tilemap = new Tilemap(GAME_WIDTH, GAME_HEIGHT, CELL_SIZE, new Vector3(GAME_POS_X, GAME_POS_Y));
         UIController.tm = tilemap;
-        tilemapSprite = Tilemap.TilemapObject.TilemapSprite.Path;
+        tilemapSprite = Tilemap.TilemapObject.TilemapSprite.None;
         tilemap.FillMap(tilemapSprite);
         tilemap.SetTilemapVisual(tilemapVisual);
 
@@ -57,28 +57,6 @@ public class Testing : MonoBehaviour {
             processTurn(position);
             processingTurn = false;
         }
-
-        /*if (Input.GetMouseButtonDown(0)) {
-            //processTurn();
-        }  
-        
-        if (Input.GetKeyDown(KeyCode.T)) {
-            tilemapSprite = Tilemap.TilemapObject.TilemapSprite.None;
-            CMDebug.TextPopupMouse(tilemapSprite.ToString());
-        }
-        if (Input.GetKeyDown(KeyCode.Y)) {
-            tilemapSprite = Tilemap.TilemapObject.TilemapSprite.Ground;
-            CMDebug.TextPopupMouse(tilemapSprite.ToString());
-        }
-        if (Input.GetKeyDown(KeyCode.U)) {
-            tilemapSprite = Tilemap.TilemapObject.TilemapSprite.Path;
-            CMDebug.TextPopupMouse(tilemapSprite.ToString());
-        }
-        if (Input.GetKeyDown(KeyCode.I)) {
-            tilemapSprite = Tilemap.TilemapObject.TilemapSprite.Dirt;
-            CMDebug.TextPopupMouse(tilemapSprite.ToString());
-        }
-
         /*
         if (Input.GetKeyDown(KeyCode.P)) {
             tilemap.Save();
@@ -98,7 +76,7 @@ public class Testing : MonoBehaviour {
         Draggable.width = x;
         Draggable.height = y;
 
-        tilemapSprite = game.IsFirstPlayerTurn()? Tilemap.TilemapObject.TilemapSprite.Ground: Tilemap.TilemapObject.TilemapSprite.Dirt;
+        tilemapSprite = game.IsFirstPlayerTurn()? Tilemap.TilemapObject.TilemapSprite.Blue: Tilemap.TilemapObject.TilemapSprite.Red;
         
         curFigure.DrawFigure(x, y, tilemapSprite);
         curFigure.SetTilemapVisual(curFigureVisual);

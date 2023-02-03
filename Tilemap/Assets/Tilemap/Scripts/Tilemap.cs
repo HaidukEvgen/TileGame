@@ -50,7 +50,7 @@ public class Tilemap {
         for(int i = 0; i < FIGURE_SIZE; i++)
             for(int j = 0; j < FIGURE_SIZE; j++){
                 TilemapObject tilemapObject = grid.GetGridObject(i, j);
-                tilemapObject.SetTilemapSprite(Tilemap.TilemapObject.TilemapSprite.None);
+                tilemapObject.SetTilemapSprite(Tilemap.TilemapObject.TilemapSprite.Obstacle);
             }
         for(int i = 0; i < figureWidth; i++)
             for(int j = 0; j < figureHeight; j++){
@@ -98,10 +98,10 @@ public class Tilemap {
     public class TilemapObject {
 
         public enum TilemapSprite {
+            Obstacle,
+            Blue,
             None,
-            Ground,
-            Path,
-            Dirt,
+            Red,
         }
 
         private Grid<TilemapObject> grid;
