@@ -13,6 +13,9 @@ public class UIController : MonoBehaviour
     public GameObject curFig;
     public GameObject tilemap;
     public GameObject endRoundPanel;
+    public GameObject infPanel;
+    public GameObject musicOn;
+    public GameObject musicOff;
     public static Game gm;
     public static Tilemap tm;
     private bool notOpenRoundPanel = true;
@@ -37,13 +40,18 @@ public class UIController : MonoBehaviour
 
     public void PauseGame(){
         tilemap.SetActive(false);
+        infPanel.SetActive(false);
         curFig.SetActive(false);
         pausePanel.SetActive(true);
         Time.timeScale = 0; 
+        if(SoundManager.isOn == false){
+            MusicOff();
+        }
     }
 
     public void CountinueGame(){
         tilemap.SetActive(true);
+        infPanel.SetActive(true);
         curFig.SetActive(true);
         pausePanel.SetActive(false);
         Time.timeScale = 1; 
@@ -87,5 +95,17 @@ public class UIController : MonoBehaviour
         gm.skipNum = 0;
         notOpenRoundPanel = true;
         gm.CleanOldVal(tm, maxRound);
+    }
+
+    public void MusicOff(){
+        musicOn.SetActive(false);
+        musicOff.SetActive(true);
+        SoundManager.stopPlay = true;
+    }
+
+    public void MusicOn(){
+        musicOn.SetActive(true);
+        musicOff.SetActive(false);
+        SoundManager.startPlay = true;
     }
 }

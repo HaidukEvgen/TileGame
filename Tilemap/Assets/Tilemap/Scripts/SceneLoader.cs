@@ -8,9 +8,11 @@ public class SceneLoader : MonoBehaviour
 {
     public GameObject starterPanel;
     public GameObject settingsPanel;
-
     
-    [SerializeField] public Slider roundSlider;
+    public Toggle musicOn;
+    public Toggle musicOff;
+
+    public Slider roundSlider;
     public Text roundtxt;
     public int round;
 
@@ -36,10 +38,35 @@ public class SceneLoader : MonoBehaviour
     public void OpenSettings(){
         starterPanel.SetActive(false);
         settingsPanel.SetActive(true);
+        if(SoundManager.isOn != true){
+            MusicOff();
+        }
     }
 
     public void CloseSettings(){
         starterPanel.SetActive(true);
         settingsPanel.SetActive(false);
+    }
+
+    public void MusicOff(){
+        if(musicOff.isOn){
+            musicOn.isOn = false; 
+            SoundManager.stopPlay = true;
+        }
+        else{
+            musicOn.isOn = true;
+            SoundManager.startPlay = true;
+        }
+    }
+
+    public void MusicOn(){
+        if(musicOn.isOn){
+            musicOff.isOn = false; 
+            SoundManager.startPlay = true;
+        }
+        else{
+            musicOff.isOn = true;
+            SoundManager.stopPlay = true;
+        }
     }
 }

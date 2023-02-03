@@ -7,6 +7,8 @@ using System;
 
 public class Testing : MonoBehaviour {
 
+    private AudioSource wrongSound;
+
     [SerializeField] private TilemapVisual tilemapVisual;
     [SerializeField] private TilemapVisual curFigureVisual;
     private Tilemap curFigure;
@@ -49,6 +51,8 @@ public class Testing : MonoBehaviour {
         int y = game.GetNum(1, 7);
 
         CreateNextFigure(x, y);
+
+        wrongSound = gameObject.GetComponent<AudioSource>();
     }
 
     private void Update() {
@@ -111,9 +115,11 @@ public class Testing : MonoBehaviour {
         game.skipNum = 0;
 
         Player player = game.GetCurPlayer();
+        bool isFirst = false; 
         if(player.IsFirstTurn()){
             MakeFirstTurn(figureWidth, figureHeight, ref player, ref tilemapSprite);
             player.FirstTurnDone();
+            isFirst = true;
         }
         position += new Vector3(0, figureHeight, 0);
         int x = 0, y = 0;
@@ -121,6 +127,9 @@ public class Testing : MonoBehaviour {
         //if figure is placed incorrectly? throw it back
         if(!game.CheckFigure(player, x, y, figureWidth, figureHeight)){
             Draggable.throwBack = true;
+            if(SoundManager.isOn && !isFirst){
+                wrongSound.Play();
+            }
             return;
         }
         //else draw it on the field
