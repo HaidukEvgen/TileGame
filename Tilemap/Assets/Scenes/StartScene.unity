@@ -971,6 +971,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   starterPanel: {fileID: 0}
   settingsPanel: {fileID: 0}
+  roundSlider: {fileID: 0}
+  roundtxt: {fileID: 0}
+  round: 0
 --- !u!1 &834360974
 GameObject:
   m_ObjectHideFlags: 0
@@ -1497,6 +1500,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   starterPanel: {fileID: 2091454387}
   settingsPanel: {fileID: 304428238}
+  roundSlider: {fileID: 1489462677}
+  roundtxt: {fileID: 2140755186}
+  round: 0
 --- !u!1 &1105360650
 GameObject:
   m_ObjectHideFlags: 0
@@ -1700,7 +1706,19 @@ MonoBehaviour:
   m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1098257691}
+        m_TargetAssemblyTypeName: SceneLoader, Assembly-CSharp
+        m_MethodName: ChangeValRounds
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1516275541
 GameObject:
   m_ObjectHideFlags: 0
@@ -2920,7 +2938,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Rounds
+  m_Text: 'Rounds: 3
 
 '
 --- !u!222 &2140755187

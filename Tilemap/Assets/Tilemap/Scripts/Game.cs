@@ -196,7 +196,7 @@ public class Game {
         }
     }
 
-    public void CleanOldVal(Tilemap tilemap){
+    public void CleanOldVal(Tilemap tilemap, int maxRound){
         this.player1.SetPoints(0);
         this.player1.SetFirstMove();
 
@@ -208,8 +208,8 @@ public class Game {
             for(int j = 0; j < boardWidth; j++)
                 gameBoard[i, j] = TileState.none;
 
-        if(this.round == 3){
-            this.round = 0;
+        if(this.round == maxRound){
+            this.round = 1;
         }
         else{
             this.round++;
