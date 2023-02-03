@@ -16,6 +16,12 @@ public class UIController : MonoBehaviour
     public static Game gm;
     public static Tilemap tm;
     private bool notOpenRoundPanel = true;
+
+    private int maxRound;
+
+    void Start(){
+        maxRound = PlayerPrefs.GetInt("Rounds", 3);
+    }
     
     // Update is called once per frame
     void Update()
@@ -48,7 +54,7 @@ public class UIController : MonoBehaviour
     }
 
     public void roundEnd(int round){
-        if (round == 3){
+        if (round == maxRound){
             if(gm.gameScore > 0){
                 winnertxt.text = "The first player wins the game";
             }
@@ -80,6 +86,6 @@ public class UIController : MonoBehaviour
         gm.inGame = true;
         gm.skipNum = 0;
         notOpenRoundPanel = true;
-        gm.CleanOldVal(tm);
+        gm.CleanOldVal(tm, maxRound);
     }
 }
