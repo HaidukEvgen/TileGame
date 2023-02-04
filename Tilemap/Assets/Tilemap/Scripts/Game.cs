@@ -185,10 +185,12 @@ public class Game {
         if(this.player1.GetPoints() > this.player2.GetPoints()){
             this.gameScore++;
             this.curWinner = 1;
+            this.player1.AddWin();
         }
         else if(this.player2.GetPoints() > this.player1.GetPoints()){
             this.gameScore--;
             this.curWinner = 2;
+            this.player2.AddWin();
         }
         else{
             this.curWinner = 0;
@@ -214,5 +216,13 @@ public class Game {
             this.round++;
         }
         SpawnObstacles(tilemap);
+    }
+
+    public Player GetPlayer1(){
+        return this.player1;
+    }
+
+    public Player GetPlayer2(){
+        return this.player2;
     }
 }

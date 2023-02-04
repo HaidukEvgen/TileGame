@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class Player{
     private int points;
+    private int winRounds;
     private bool firstTurn;
     private Game.TileState tileState;
 
     public Player(Game.TileState tileState){
         this.points = 0;
+        this.winRounds = 0;
         this.tileState = tileState;
         this.firstTurn = true;
     }
@@ -23,6 +25,14 @@ public class Player{
 
     public void SetPoints(int points){
         this.points = points;
+    }
+
+    public void AddWin(){
+        this.winRounds++;
+    }
+
+    public int GetWinRounds(){
+        return this.winRounds;
     }
 
     public Game.TileState GetTileState(){

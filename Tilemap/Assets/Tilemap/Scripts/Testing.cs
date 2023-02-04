@@ -25,14 +25,25 @@ public class Testing : MonoBehaviour {
     public const int GAME_POS_X = -16;
     public const int GAME_POS_Y = -7;
 
-    public const int GAME_HEIGHT = 14;
-    public const int GAME_WIDTH = 20;
+    public readonly int[] GAME_HEIGHT_ARRAY = {12 , 14};
+    public int GAME_HEIGHT; 
+
+    public readonly int[] GAME_WIDTH_ARRAY = {17 , 20};
+    public int GAME_WIDTH;   // 20
 
     public const int FIGURE_SIZE = 6;
 
-    public const float CELL_SIZE = 1f;
+    public readonly float[] CELL_SIZE_ARRAY = {1.15f , 1f};
+    public float CELL_SIZE;
 
     private void Start() {
+        int numSize = PlayerPrefs.GetInt("Map", 1);
+        Debug.Log(numSize);
+
+        GAME_HEIGHT = GAME_HEIGHT_ARRAY[numSize];
+        GAME_WIDTH = GAME_WIDTH_ARRAY[numSize];
+        CELL_SIZE = CELL_SIZE_ARRAY[numSize];
+
         //create tilemap of the game board and fill with gray sprites
         tilemap = new Tilemap(GAME_WIDTH, GAME_HEIGHT, CELL_SIZE, new Vector3(GAME_POS_X, GAME_POS_Y));
         UIController.tm = tilemap;
@@ -45,7 +56,7 @@ public class Testing : MonoBehaviour {
         UIController.gm = game;
 
         //create tilemap for current figure
-        curFigure = new Tilemap(FIGURE_SIZE, FIGURE_SIZE, 1f, new Vector3(0, 0));
+        curFigure = new Tilemap(FIGURE_SIZE, FIGURE_SIZE, CELL_SIZE, new Vector3(0, 0));
 
         int x = game.GetNum(1, 7);
         int y = game.GetNum(1, 7);

@@ -8,6 +8,7 @@ public class UIController : MonoBehaviour
 {
     public Text scoretxt;
     public Text roundtxt;
+    public Text roundsScoretxt;
     public Text winnertxt;
     public GameObject pausePanel;
     public GameObject curFig;
@@ -62,6 +63,8 @@ public class UIController : MonoBehaviour
     }
 
     public void roundEnd(int round){
+        roundsScoretxt.text = "Rounds score: " + gm.GetPlayer1().GetWinRounds().ToString() + " : " + gm.GetPlayer2().GetWinRounds().ToString();
+
         if (round == maxRound){
             if(gm.gameScore > 0){
                 winnertxt.text = "The first player wins the game";
