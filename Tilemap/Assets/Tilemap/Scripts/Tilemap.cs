@@ -46,6 +46,22 @@ public class Tilemap {
         }   
     }
 
+    public void SetRowBlank(int i, TilemapObject.TilemapSprite tilemapSprite){
+        for(int j = 0; j < grid.GetWidth(); j++){
+            TilemapObject tilemapObject = grid.GetGridObject(j, i);
+            if (tilemapObject != null)
+                tilemapObject.SetTilemapSprite(tilemapSprite);
+        }
+    }
+
+    public void SetColmnBlank(int i, TilemapObject.TilemapSprite tilemapSprite){
+        for(int j = 0; j < grid.GetHeight(); j++){
+            TilemapObject tilemapObject = grid.GetGridObject(i, j);
+            if (tilemapObject != null)
+                tilemapObject.SetTilemapSprite(tilemapSprite);
+        }
+    }
+
     public void DrawFigure(int figureWidth, int figureHeight, TilemapObject.TilemapSprite tilemapSprite){
         for(int i = 0; i < FIGURE_SIZE; i++)
             for(int j = 0; j < FIGURE_SIZE; j++){

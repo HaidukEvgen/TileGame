@@ -17,6 +17,7 @@ public class UIController : MonoBehaviour
     public GameObject infPanel;
     public GameObject musicOn;
     public GameObject musicOff;
+    public AudioSource endSound;
     public static Game gm;
     public static Tilemap tm;
     private bool notOpenRoundPanel = true;
@@ -89,6 +90,9 @@ public class UIController : MonoBehaviour
 
         curFig.SetActive(false);
         endRoundPanel.SetActive(true);
+        if(SoundManager.isOn){
+            endSound.Play();
+        }
     }
 
     public void CountinueGameRound(){

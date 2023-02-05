@@ -38,7 +38,6 @@ public class Testing : MonoBehaviour {
 
     private void Start() {
         int numSize = PlayerPrefs.GetInt("Map", 1);
-        Debug.Log(numSize);
 
         GAME_HEIGHT = GAME_HEIGHT_ARRAY[numSize];
         GAME_WIDTH = GAME_WIDTH_ARRAY[numSize];
@@ -118,6 +117,9 @@ public class Testing : MonoBehaviour {
                 game.skipNum++;
                 if(game.skipNum == 2){
                     game.MakeNewRound(tilemap);
+                }
+                if(SoundManager.isOn){
+                    wrongSound.Play();
                 }
                 return;   
             }   

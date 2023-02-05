@@ -23,6 +23,7 @@ public class Game {
         obstacle
     };
     private Turns curTurn;
+    private Tilemap tilemap;
 
     //initialize new game with borad's width and height, players as well as 0's in the cells
     public Game(int x, int y, Tilemap tilemap){
@@ -36,6 +37,7 @@ public class Game {
         this.skipNum = 0;
         this.gameScore = 0;
         this.curWinner = 0;
+        this.tilemap = tilemap;
         gameBoard = new TileState[boardHeight, boardWidth];
         for(int i = 0; i < boardHeight; i++)
             for(int j = 0; j < boardWidth; j++)
@@ -157,6 +159,8 @@ public class Game {
         for(int i = x; i < x + height; i++)
             for(int j = y; j < y + width; j++)
                 gameBoard[i, j] = player.GetTileState();
+
+        TetrisCheck();
     }
 
     //transform grid's coordinates to board's ones
@@ -225,4 +229,49 @@ public class Game {
     public Player GetPlayer2(){
         return this.player2;
     }
+
+    public void CleanRow(int i){
+        for(int j = 0; j < boardWidth; j++)
+            gameBoard[i, j] = TileState.none;
+
+        tilemap.SetRowBlank(boardHeight - 1 - i, Tilemap.TilemapObject.TilemapSprite.None);
+    }
+
+    public void CleanColmn(int i){
+        for(int j = 0; j < boardHeight; j++)
+            gameBoard[j, i] = TileState.none;
+
+        tilemap.SetColmnBlank(i, Tilemap.TilemapObject.TilemapSprite.None);
+    }
+
+    public void TetrisCheck(){
+        for(int i = 0; i < boardHeight; i++){
+            for(int j = 0; j < boardWidth - 1; j++){
+                if(gameBoard[i, j] != gameBoard[i, j + 1] || gameBoard[i, j] == TileState.none){
+                    break;
+                }
+                else{
+                    if(j == boardWidth - 2){
+                        CleanRow(i);
+                    }
+                }
+            }
+        }
+
+        for(int i = 0; i < boardWidth; i++){
+            for(int j = 0; j < boardHeight - 1; j++){
+                if(gameBoard[j, i] != gameBoard[j + 1, i] || gameBoard[j, i] == TileState.none){
+                    break;
+                }
+                else{
+                    if(j == boardHeight - 2){
+                        CleanColmn(i);
+                    }
+                }
+            }
+        }
+
+    }
 }
+// else FIGURE_POS_Y 3 numSize 45 gameBoard** /]44][78/90],
+// lets go tilemapObjectSaveObject the kitchen please 
