@@ -273,5 +273,3 @@ public class Game {
 
     }
 }
-// else FIGURE_POS_Y 3 numSize 45 gameBoard** /]44][78/90],
-// lets go tilemapObjectSaveObject the kitchen please 

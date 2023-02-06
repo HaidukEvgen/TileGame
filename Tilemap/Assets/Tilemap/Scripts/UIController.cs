@@ -26,6 +26,8 @@ public class UIController : MonoBehaviour
 
     void Start(){
         maxRound = PlayerPrefs.GetInt("Rounds", 3);
+        PauseGame();
+        CountinueGame();
     }
     
     // Update is called once per frame
@@ -68,10 +70,10 @@ public class UIController : MonoBehaviour
 
         if (round == maxRound){
             if(gm.gameScore > 0){
-                winnertxt.text = "The first player wins the game";
+                winnertxt.text = "The first player won this game";
             }
             else if (gm.gameScore < 0){
-                winnertxt.text = "The second player wins the game";
+                winnertxt.text = "The second player won this game";
             }
             else{
                 winnertxt.text = "Draw";
@@ -79,10 +81,10 @@ public class UIController : MonoBehaviour
             
         }
         else if(gm.curWinner == 1){
-            winnertxt.text = "First player wins this round";
+            winnertxt.text = "First player won this round";
         }
         else if (gm.curWinner == 2){
-            winnertxt.text = "Second player wins this round";
+            winnertxt.text = "Second player won this round";
         }
         else{
             winnertxt.text = "Draw";

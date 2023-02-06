@@ -6,15 +6,16 @@ using UnityEngine;
 public class Draggable : MonoBehaviour
 {
     private Vector3 mousePositionOffset;
-    private static BoxCollider2D m_collider;
+    public static BoxCollider2D m_collider;
     public static bool throwBack = false;
     public static int height;
     public static int width;
 
-    // set collider for the first figure
+    //set collider for the first figure
     void Awake() {
         m_collider = GetComponent<BoxCollider2D>();
     }
+
 
     //if figure was left incorrectly then throw it back without placing
     void Update(){

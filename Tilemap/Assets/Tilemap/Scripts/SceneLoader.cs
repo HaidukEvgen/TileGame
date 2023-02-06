@@ -14,7 +14,7 @@ public class SceneLoader : MonoBehaviour
 
     public Slider roundSlider;
     public Text roundtxt;
-    public int round;
+    public static int round;
 
     public Slider mapSlider;
     public Text maptxt;

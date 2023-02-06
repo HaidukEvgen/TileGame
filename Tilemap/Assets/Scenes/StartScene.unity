@@ -1639,7 +1639,6 @@ MonoBehaviour:
   musicOff: {fileID: 982028307}
   roundSlider: {fileID: 1489462677}
   roundtxt: {fileID: 2140755186}
-  round: 0
   mapSlider: {fileID: 1559384366}
   maptxt: {fileID: 815383380}
 --- !u!1 &1105360650
@@ -2982,7 +2981,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1971818056}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.85, y: -1, z: 0}
+  m_LocalPosition: {x: 3.85, y: -1.025, z: 0}
   m_LocalScale: {x: 0.61, y: 0.61, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

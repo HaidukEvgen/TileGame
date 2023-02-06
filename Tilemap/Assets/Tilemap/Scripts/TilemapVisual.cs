@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class TilemapVisual : MonoBehaviour {
 
+    public static AudioSource deleteSound;
+
     [System.Serializable]
     public struct TilemapSpriteUV {
         public Tilemap.TilemapObject.TilemapSprite tilemapSprite;
@@ -38,6 +40,10 @@ public class TilemapVisual : MonoBehaviour {
                 uv11 = new Vector2(tilemapSpriteUV.uv11Pixels.x / textureWidth, tilemapSpriteUV.uv11Pixels.y / textureHeight),
             };
         }
+    }
+
+    void Start(){
+        deleteSound = gameObject.GetComponent<AudioSource>();
     }
 
     public void SetGrid(Tilemap tilemap, Grid<Tilemap.TilemapObject> grid) {
@@ -90,6 +96,10 @@ public class TilemapVisual : MonoBehaviour {
         mesh.vertices = vertices;
         mesh.uv = uv;
         mesh.triangles = triangles;
+    }
+
+    public static void PlayDeleteSound(){
+        deleteSound.Play();
     }
 
 }
