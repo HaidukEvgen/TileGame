@@ -49,7 +49,7 @@ public class Tilemap {
     public void SetRowBlank(int i, TilemapObject.TilemapSprite tilemapSprite){
         if(SoundManager.isOn){
             TilemapVisual.PlayDeleteSound();
-        }
+        } 
         for(int j = 0; j < grid.GetWidth(); j++){
             TilemapObject tilemapObject = grid.GetGridObject(j, i);
             if (tilemapObject != null)

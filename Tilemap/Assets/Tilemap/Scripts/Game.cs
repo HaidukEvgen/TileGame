@@ -231,45 +231,66 @@ public class Game {
     }
 
     public void CleanRow(int i){
-        for(int j = 0; j < boardWidth; j++)
-            gameBoard[i, j] = TileState.none;
-
         tilemap.SetRowBlank(boardHeight - 1 - i, Tilemap.TilemapObject.TilemapSprite.None);
+
+        for(int j = 0; j < boardWidth; j++)
+            if(gameBoard[i, j] != TileState.obstacle){
+                gameBoard[i, j] = TileState.none;
+            }
+            else{
+                int x = i;
+                int y = j;
+                GetMapXY(ref x, ref y);
+                tilemap.SetTilemapSprite(x, y, Tilemap.TilemapObject.TilemapSprite.Obstacle);
+            }
     }
 
     public void CleanColmn(int i){
-        for(int j = 0; j < boardHeight; j++)
-            gameBoard[j, i] = TileState.none;
-
         tilemap.SetColmnBlank(i, Tilemap.TilemapObject.TilemapSprite.None);
+
+        for(int j = 0; j < boardHeight; j++)
+            if(gameBoard[j, i] != TileState.obstacle){
+                gameBoard[j, i] = TileState.none;
+            }
+            else{
+                int x = j;
+                int y = i;
+                GetMapXY(ref x, ref y);
+                tilemap.SetTilemapSprite(x, y, Tilemap.TilemapObject.TilemapSprite.Obstacle);
+            }
     }
 
     public void TetrisCheck(){
         for(int i = 0; i < boardHeight; i++){
-            for(int j = 0; j < boardWidth - 1; j++){
-                if(gameBoard[i, j] != gameBoard[i, j + 1] || gameBoard[i, j] == TileState.none){
-                    break;
-                }
-                else{
-                    if(j == boardWidth - 2){
-                        CleanRow(i);
+            if(gameBoard[i, 0] != TileState.none){
+                var curColor = gameBoard[i, 0];
+                for(int j = 1; j < boardWidth - 1; j++){
+                    if(gameBoard[i, j] == curColor || gameBoard[i, j] == TileState.obstacle){
+                        if(j == boardWidth - 2){
+                            CleanRow(i);
+                        }
+                    }
+                    else{
+                        break;
                     }
                 }
             }
         }
 
         for(int i = 0; i < boardWidth; i++){
-            for(int j = 0; j < boardHeight - 1; j++){
-                if(gameBoard[j, i] != gameBoard[j + 1, i] || gameBoard[j, i] == TileState.none){
-                    break;
-                }
-                else{
-                    if(j == boardHeight - 2){
-                        CleanColmn(i);
+            if(gameBoard[0, i] != TileState.none){
+                var curColor = gameBoard[0, i];
+                for(int j = 0; j < boardHeight - 1; j++){
+                    if(gameBoard[j, i] == curColor || gameBoard[j, i] == TileState.obstacle){
+                        if(j == boardHeight - 2){
+                            CleanColmn(i);
+                        }
+                    }
+                    else{
+                        break;
                     }
                 }
             }
         }
-
     }
 }
