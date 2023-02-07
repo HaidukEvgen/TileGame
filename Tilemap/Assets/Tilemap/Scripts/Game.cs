@@ -268,6 +268,7 @@ public class Game {
                     if(gameBoard[i, j] == curColor || gameBoard[i, j] == TileState.obstacle){
                         if(j == boardWidth - 2){
                             CleanRow(i);
+                            GetCurPlayer().AddPoints(boardWidth);
                         }
                     }
                     else{
@@ -284,6 +285,7 @@ public class Game {
                     if(gameBoard[j, i] == curColor || gameBoard[j, i] == TileState.obstacle){
                         if(j == boardHeight - 2){
                             CleanColmn(i);
+                            GetCurPlayer().AddPoints(boardHeight);
                         }
                     }
                     else{
