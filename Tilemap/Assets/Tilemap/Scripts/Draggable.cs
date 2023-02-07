@@ -43,14 +43,13 @@ public class Draggable : MonoBehaviour
     }
 
     private void ThrowFigureBack(){
-        float x = 10.5f - width/2;
+        float x = 11.28f - width/2;
         float y = 0f - height/2;
         transform.position = new Vector3(x, y, 0);
     }
 
     //change figure's collider according to its size
     public static void ChangeCollider(int x, int y){
-        m_collider.size = new Vector3(x, y, 0f);
-        m_collider.offset = new Vector3(.5f * x, .5f * y, 0f);
+        m_collider.offset = new Vector2(x / 2, y / 2);
     }
 }

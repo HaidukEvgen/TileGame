@@ -2119,14 +2119,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tilemapSpriteUVArray:
   - tilemapSprite: 1
+    uv00Pixels: {x: 0, y: 0}
+    uv11Pixels: {x: 64, y: 64}
+  - tilemapSprite: 4
     uv00Pixels: {x: 64, y: 0}
     uv11Pixels: {x: 128, y: 64}
   - tilemapSprite: 2
-    uv00Pixels: {x: 192, y: 0}
-    uv11Pixels: {x: 256, y: 64}
-  - tilemapSprite: 3
     uv00Pixels: {x: 128, y: 0}
     uv11Pixels: {x: 192, y: 64}
+  - tilemapSprite: 3
+    uv00Pixels: {x: 192, y: 0}
+    uv11Pixels: {x: 256, y: 64}
+  - tilemapSprite: 5
+    uv00Pixels: {x: 256, y: 0}
+    uv11Pixels: {x: 320, y: 64}
 --- !u!4 &1691645731
 Transform:
   m_ObjectHideFlags: 0
@@ -2167,7 +2173,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.5, y: 0.5}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -2178,7 +2184,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 9, y: 9}
   m_EdgeRadius: 0
 --- !u!1 &1850345758
 GameObject:
@@ -2340,15 +2346,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tilemapSpriteUVArray:
   - tilemapSprite: 1
+    uv00Pixels: {x: 0, y: 0}
+    uv11Pixels: {x: 64, y: 64}
+  - tilemapSprite: 4
     uv00Pixels: {x: 64, y: 0}
     uv11Pixels: {x: 128, y: 64}
-  - tilemapSprite: 3
+  - tilemapSprite: 2
     uv00Pixels: {x: 128, y: 0}
     uv11Pixels: {x: 192, y: 64}
-  - tilemapSprite: 2
+  - tilemapSprite: 3
     uv00Pixels: {x: 192, y: 0}
     uv11Pixels: {x: 256, y: 64}
-  - tilemapSprite: 0
+  - tilemapSprite: 5
     uv00Pixels: {x: 256, y: 0}
     uv11Pixels: {x: 320, y: 64}
 --- !u!4 &1884131569
