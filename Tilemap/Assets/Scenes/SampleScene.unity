@@ -2342,12 +2342,15 @@ MonoBehaviour:
   - tilemapSprite: 1
     uv00Pixels: {x: 64, y: 0}
     uv11Pixels: {x: 128, y: 64}
-  - tilemapSprite: 2
-    uv00Pixels: {x: 192, y: 0}
-    uv11Pixels: {x: 256, y: 64}
   - tilemapSprite: 3
     uv00Pixels: {x: 128, y: 0}
     uv11Pixels: {x: 192, y: 64}
+  - tilemapSprite: 2
+    uv00Pixels: {x: 192, y: 0}
+    uv11Pixels: {x: 256, y: 64}
+  - tilemapSprite: 0
+    uv00Pixels: {x: 256, y: 0}
+    uv11Pixels: {x: 320, y: 64}
 --- !u!4 &1884131569
 Transform:
   m_ObjectHideFlags: 0
