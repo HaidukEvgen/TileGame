@@ -10,6 +10,7 @@ public class UIController : MonoBehaviour
     public Text roundtxt;
     public Text roundsScoretxt;
     public Text winnertxt;
+
     public GameObject pausePanel;
     public GameObject curFig;
     public GameObject tilemap;
@@ -17,9 +18,16 @@ public class UIController : MonoBehaviour
     public GameObject infPanel;
     public GameObject musicOn;
     public GameObject musicOff;
+    public GameObject bonusesPanel;
+    public GameObject openBonusesButton;
+    public GameObject closeBonusesButton;
+
     public AudioSource endSound;
+    
     public static Game gm;
+    
     public static Tilemap tm;
+    
     private bool notOpenRoundPanel = true;
 
     private int maxRound;
@@ -110,6 +118,20 @@ public class UIController : MonoBehaviour
         musicOn.SetActive(false);
         musicOff.SetActive(true);
         SoundManager.stopPlay = true;
+    }
+
+    public void OpenBonusPanel(){
+        closeBonusesButton.SetActive(true);
+        openBonusesButton.SetActive(false);
+        curFig.SetActive(false);
+        bonusesPanel.SetActive(true);
+    }
+
+    public void CloseBonusesPanel(){
+        closeBonusesButton.SetActive(false);
+        openBonusesButton.SetActive(true);
+        curFig.SetActive(true);
+        bonusesPanel.SetActive(false);
     }
 
     public void MusicOn(){

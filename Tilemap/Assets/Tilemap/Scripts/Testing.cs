@@ -39,6 +39,8 @@ public class Testing : MonoBehaviour {
     public float CELL_SIZE;
 
     private void Start() {
+        Input.multiTouchEnabled = false; 
+        
         int numSize = PlayerPrefs.GetInt("Map", 1);
 
         GAME_HEIGHT = GAME_HEIGHT_ARRAY[numSize];
