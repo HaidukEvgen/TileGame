@@ -36,8 +36,6 @@ public class Testing : MonoBehaviour {
     public readonly float[] CELL_SIZE_ARRAY = {1.15f , 1f};
     public float CELL_SIZE;
 
-    private int trials = 0;
-
     private void Start() {
         int numSize = PlayerPrefs.GetInt("Map", 1);
 
@@ -113,22 +111,13 @@ public class Testing : MonoBehaviour {
         int figureHeight = game.GetCurHeight(); 
 
         if(!game.GetCurPlayer().IsFirstTurn()){
-            if(!game.CanBePlaced(figureWidth, figureHeight)){
-                trials++;
-                if (trials == 3){
-                    trials = 0;
-                    game.ChangeTurn(ref tilemapSprite);
-                    CreateNextFigure(game.GetNum(1, 7), game.GetNum(1, 7));
-                    game.skipNum++;
-                    if(game.skipNum == 2){
-                        game.MakeNewRound(tilemap);
-                    }
-                    if(SoundManager.isOn){
-                        wrongSound.Play();
-                    }
-                    return;
+            if(!game.CanBePlaced(figureWidth, figureHeight) && !game.CanBePlaced(figureHeight, figureWidth)){
+                game.ChangeTurn(ref tilemapSprite);
+                CreateNextFigure(game.GetNum(1, 7), game.GetNum(1, 7));
+                game.skipNum++;
+                if(game.skipNum == 2){
+                    game.MakeNewRound(tilemap);
                 }
-                
                 if(SoundManager.isOn){
                     wrongSound.Play();
                 }
@@ -137,7 +126,6 @@ public class Testing : MonoBehaviour {
             }   
         }
 
-        trials = 0;
         game.skipNum = 0;
 
         Player player = game.GetCurPlayer();
