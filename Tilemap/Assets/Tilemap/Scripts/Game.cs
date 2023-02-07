@@ -253,6 +253,7 @@ public class Game {
                 else{
                     if(j == boardWidth - 2){
                         CleanRow(i);
+                        this.GetCurPlayer().AddPoints(boardWidth);
                     }
                 }
             }
@@ -266,6 +267,7 @@ public class Game {
                 else{
                     if(j == boardHeight - 2){
                         CleanColmn(i);
+                        this.GetCurPlayer().AddPoints(boardHeight);
                     }
                 }
             }

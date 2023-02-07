@@ -189,10 +189,9 @@ public class Testing : MonoBehaviour {
         lastShadowY = -1;
         player.AddPoints(figureWidth * figureHeight);
         //add this figure to the matrix
+        game.AddFigure(player, x, y, figureWidth, figureHeight);
         //change players
         game.ChangeTurn(ref tilemapSprite);
-        //mark figure in matrix
-        game.AddFigure(player, x, y, figureWidth, figureHeight);
         Draggable.throwBack = true;
         //and create next
         CreateNextFigure(game.GetNum(1, 7), game.GetNum(1, 7));
