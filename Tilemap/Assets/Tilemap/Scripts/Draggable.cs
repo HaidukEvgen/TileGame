@@ -22,6 +22,8 @@ public class Draggable : MonoBehaviour
         if(throwBack){
             ThrowFigureBack();
             throwBack = false;
+        } else {
+            Testing.position = transform.position;
         }
     }
 
