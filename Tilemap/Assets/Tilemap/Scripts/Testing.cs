@@ -18,6 +18,8 @@ public class Testing : MonoBehaviour {
 
     public static bool processingTurn = false;
     public static Vector3 position;
+    private int lastShadowX = -1;
+    private int lastShadowY = -1;
 
     public const int FIGURE_POS_X = 9;
     public const int FIGURE_POS_Y = 0;
@@ -35,8 +37,6 @@ public class Testing : MonoBehaviour {
 
     public readonly float[] CELL_SIZE_ARRAY = {1.15f , 1f};
     public float CELL_SIZE;
-
-    private int trials = 0;
 
     private void Start() {
         int numSize = PlayerPrefs.GetInt("Map", 1);
@@ -72,6 +72,8 @@ public class Testing : MonoBehaviour {
         if(processingTurn){
             processTurn(position);
             processingTurn = false;
+        } else {
+            DrawShadow(position);
         }
         /*
         if (Input.GetKeyDown(KeyCode.P)) {
@@ -107,28 +109,48 @@ public class Testing : MonoBehaviour {
         CreateNextFigure(x, y);
     }
 
+    public void DrawShadow(Vector3 position){
+        int figureWidth = game.GetCurWidth();
+        int figureHeight = game.GetCurHeight();
+        position += new Vector3(0, figureHeight, 0);
+        int x = 0, y = 0;
+        tilemap.GetCoords(position, out x, out y);
+        if(x == lastShadowX && y == lastShadowY)
+            return;
+        Player player = game.GetCurPlayer();
+        if (lastShadowX != -1)
+            for(int i = 0; i < figureWidth; i++){
+                for(int j = 0; j < figureHeight; j++){
+                    tilemap.SetTilemapSprite(lastShadowX + i, lastShadowY - j, Tilemap.TilemapObject.TilemapSprite.None);
+                }
+            }
+        if(game.CheckFigure(player, x, y, figureWidth, figureHeight)){
+            for(int i = 0; i < figureWidth; i++){
+                for(int j = 0; j < figureHeight; j++){
+                    tilemap.SetTilemapSprite(x + i, y - j, Tilemap.TilemapObject.TilemapSprite.Shadow);
+                }
+            }
+            lastShadowX = x;
+            lastShadowY = y;
+        } else {
+            lastShadowX = -1;
+            lastShadowY = -1;
+        }
+    }    
+    
     //is called after player left the figure on the board
     public void processTurn(Vector3 position){
         int figureWidth = game.GetCurWidth();
         int figureHeight = game.GetCurHeight(); 
 
         if(!game.GetCurPlayer().IsFirstTurn()){
-            if(!game.CanBePlaced(figureWidth, figureHeight)){
-                trials++;
-                if (trials == 3){
-                    trials = 0;
-                    game.ChangeTurn(ref tilemapSprite);
-                    CreateNextFigure(game.GetNum(1, 7), game.GetNum(1, 7));
-                    game.skipNum++;
-                    if(game.skipNum == 2){
-                        game.MakeNewRound(tilemap);
-                    }
-                    if(SoundManager.isOn){
-                        wrongSound.Play();
-                    }
-                    return;
+            if(!game.CanBePlaced(figureWidth, figureHeight) && !game.CanBePlaced(figureHeight, figureWidth)){
+                game.ChangeTurn(ref tilemapSprite);
+                CreateNextFigure(game.GetNum(1, 7), game.GetNum(1, 7));
+                game.skipNum++;
+                if(game.skipNum == 2){
+                    game.MakeNewRound(tilemap);
                 }
-                
                 if(SoundManager.isOn){
                     wrongSound.Play();
                 }
@@ -137,7 +159,6 @@ public class Testing : MonoBehaviour {
             }   
         }
 
-        trials = 0;
         game.skipNum = 0;
 
         Player player = game.GetCurPlayer();
@@ -164,6 +185,8 @@ public class Testing : MonoBehaviour {
                 tilemap.SetTilemapSprite(x + i, y - j, tilemapSprite);
             }
         }
+        lastShadowX = -1;
+        lastShadowY = -1;
         player.AddPoints(figureWidth * figureHeight);
         //add this figure to the matrix
         //change players
