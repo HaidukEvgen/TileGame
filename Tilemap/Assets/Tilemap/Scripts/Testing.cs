@@ -21,9 +21,6 @@ public class Testing : MonoBehaviour {
     private int lastShadowX = -1;
     private int lastShadowY = -1;
 
-    public const int FIGURE_POS_X = 9;
-    public const int FIGURE_POS_Y = 0;
-
     public const int GAME_POS_X = -16;
     public const int GAME_POS_Y = -7;
 
@@ -112,6 +109,8 @@ public class Testing : MonoBehaviour {
     }
 
     public void DrawShadow(Vector3 position){
+        if(game.GetCurPlayer().IsFirstTurn())
+            return;
         int figureWidth = game.GetCurWidth();
         int figureHeight = game.GetCurHeight();
         position += new Vector3(0, figureHeight, 0);
