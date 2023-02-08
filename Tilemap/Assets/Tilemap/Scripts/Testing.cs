@@ -156,8 +156,68 @@ public class Testing : MonoBehaviour {
         }
     }   
 
+    public struct PCTurns{
+        public PCTurns(int a, int b, int c, int d){
+            x = a;
+            y = b;
+            width = c;
+            height = d;
+        }
+        public int x;
+        public int y;
+        public int width;
+        public int height;
+    }
+
     public void MakeTurnPC(){
-        
+        int figureWidth = game.GetCurWidth();
+        int figureHeight = game.GetCurHeight();
+
+        Stack<PCTurns> turns = new Stack<PCTurns>();
+
+        if(!game.GetCurPlayer().IsFirstTurn()){
+            if(!game.CanBePlaced(figureWidth, figureHeight, ref turns) && !game.CanBePlaced(figureHeight, figureWidth, ref turns)){
+                game.ChangeTurn(ref tilemapSprite);
+                CreateNextFigure(game.GetNum(1, 7), game.GetNum(1, 7));
+                game.skipNum++;
+                if(game.skipNum == 2){
+                    game.MakeNewRound(tilemap);
+                }
+                if(SoundManager.isOn){
+                    wrongSound.Play();
+                }
+                Draggable.throwBack = true;
+                return;   
+            }   
+        }
+
+        game.skipNum = 0;
+
+        Player player = game.GetCurPlayer();
+        if(player.IsFirstTurn()){
+            MakeFirstTurnPC(figureWidth, figureHeight, ref player, ref tilemapSprite);
+            player.FirstTurnDone();
+        }
+        PCTurns turn;
+        if(turns.Count > 0)
+            turn = turns.Pop();
+        else
+            return;
+        for(int i = 0; i < turn.width; i++){
+            for(int j = 0; j < turn.height; j++){
+                tilemap.SetTilemapSprite(turn.x + i, turn.y - j, tilemapSprite);
+            }
+        }
+        lastShadowX = -1;
+        lastShadowY = -1;
+        player.AddPoints(turn.width * turn.height);
+        //add this figure to the matrix
+        game.AddFigure(player, turn.x, turn.y, turn.width, turn.height);
+        //change players
+        game.ChangeTurn(ref tilemapSprite);
+        Draggable.throwBack = true;
+        //and create next
+        CreateNextFigure(game.GetNum(1, 7), game.GetNum(1, 7));
     } 
     
     //is called after player left the figure on the board
@@ -228,6 +288,20 @@ public class Testing : MonoBehaviour {
             x = GAME_WIDTH - figureWidth;
             y = figureHeight - 1;
         }
+        for(int i = 0; i < figureWidth; i++){
+            for(int j = 0; j < figureHeight; j++){
+                tilemap.SetTilemapSprite(x + i, y - j, tilemapSprite);
+            }
+        }
+        player.AddPoints(figureWidth * figureHeight);
+        game.ChangeTurn(ref tilemapSprite);
+        game.AddFigure(player, x, y, figureWidth, figureHeight);
+        Draggable.throwBack = true;
+        CreateNextFigure(game.GetNum(1, 7), game.GetNum(1, 7));
+    }
+
+    private void MakeFirstTurnPC(int figureWidth, int figureHeight, ref Player player, ref Tilemap.TilemapObject.TilemapSprite tilemapSprite){
+        int x = 0, y = GAME_HEIGHT - 1;
         for(int i = 0; i < figureWidth; i++){
             for(int j = 0; j < figureHeight; j++){
                 tilemap.SetTilemapSprite(x + i, y - j, tilemapSprite);

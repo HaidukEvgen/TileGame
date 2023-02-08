@@ -119,6 +119,17 @@ public class Game {
         return false;
     }
 
+    public bool CanBePlaced(int width, int height, ref Stack<Testing.PCTurns> stack){
+        bool canBePlaced = false;
+        for(int x = 0; x < boardWidth; x++)
+            for(int y = 0; y < boardHeight; y++)
+                if(CheckFigure(this.GetCurPlayer(), x, y, width, height)){
+                    canBePlaced = true;
+                    stack.Push(new Testing.PCTurns(x, y, width, height));
+                }
+        return canBePlaced;
+    }
+
     //check if figure can be placed there where it was left
     public bool CheckFigure(Player player, int x, int y, int width, int height){
         Game.TileState tileState = player.GetTileState(); 
