@@ -41,7 +41,7 @@ public class Testing : MonoBehaviour {
         int numSize = PlayerPrefs.GetInt("Map", 1);
 
         //gameMode 1 or 2 players
-        int gameMode = PlayerPrefs.GetInt("GameMode", 1);
+        bool singleMode = PlayerPrefs.GetInt("GameMode", 1) == 1? true: false;
         //Debug.Log(gameMode);
 
         GAME_HEIGHT = GAME_HEIGHT_ARRAY[numSize];
@@ -56,7 +56,7 @@ public class Testing : MonoBehaviour {
         tilemap.SetTilemapVisual(tilemapVisual);
 
         //create gameboard matrix 
-        game = new Game(GAME_WIDTH, GAME_HEIGHT, tilemap);
+        game = new Game(GAME_WIDTH, GAME_HEIGHT, tilemap, singleMode);
         UIController.gm = game;
 
         //create tilemap for current figure
@@ -71,12 +71,25 @@ public class Testing : MonoBehaviour {
     }
 
     private void Update() {
-        //if tile was left correctly then put it on the board
-        if(processingTurn){
-            processTurn(position);
-            processingTurn = false;
+        if(!game.IsSingleMode()){
+            //if tile was left correctly then put it on the board
+            if(processingTurn){
+                processTurn(position);
+                processingTurn = false;
+            } else {
+                DrawShadow(position);
+            }
         } else {
-            DrawShadow(position);
+            if (game.IsFirstPlayerTurn())
+                MakeTurnPC();
+            else{
+                if(processingTurn){
+                    processTurn(position);
+                    processingTurn = false;
+                } else {
+                    DrawShadow(position);
+                }
+            }
         }
         /*
         if (Input.GetKeyDown(KeyCode.P)) {
@@ -141,7 +154,11 @@ public class Testing : MonoBehaviour {
             lastShadowX = -1;
             lastShadowY = -1;
         }
-    }    
+    }   
+
+    public void MakeTurnPC(){
+        
+    } 
     
     //is called after player left the figure on the board
     public void processTurn(Vector3 position){

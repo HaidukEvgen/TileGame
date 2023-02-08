@@ -8,6 +8,7 @@ public class Game {
     private int boardHeight;
     private int curWidth;
     private int curHeight;
+    private bool singleMode;
     private Player player1;
     private Player player2; 
     public bool inGame;
@@ -26,11 +27,12 @@ public class Game {
     private Tilemap tilemap;
 
     //initialize new game with borad's width and height, players as well as 0's in the cells
-    public Game(int x, int y, Tilemap tilemap){
+    public Game(int x, int y, Tilemap tilemap, bool singleMode){
         this.boardWidth = x;
         this.boardHeight = y;
         this.player1 = new Player(TileState.firstPlayer);
         this.player2 = new Player(TileState.secondPlayer);
+        this.singleMode = singleMode;
         this.curTurn = GetNum(0, 2) == 0? Turns.firstPlTurn: Turns.secondPlTurn;
         this.round = 1;
         this.inGame = true;
@@ -71,6 +73,10 @@ public class Game {
 
     public bool IsFirstPlayerTurn(){
             return this.curTurn == Turns.firstPlTurn;
+    }
+
+    public bool IsSingleMode(){
+        return singleMode;
     }
 
     public string GetScore(){
@@ -264,9 +270,9 @@ public class Game {
         for(int i = 0; i < boardHeight; i++){
             if(gameBoard[i, 0] != TileState.none){
                 var curColor = gameBoard[i, 0];
-                for(int j = 1; j < boardWidth - 1; j++){
+                for(int j = 1; j < boardWidth; j++){
                     if(gameBoard[i, j] == curColor || gameBoard[i, j] == TileState.obstacle){
-                        if(j == boardWidth - 2){
+                        if(j == boardWidth - 1){
                             CleanRow(i);
                             GetCurPlayer().AddPoints(boardWidth);
                         }
@@ -281,9 +287,9 @@ public class Game {
         for(int i = 0; i < boardWidth; i++){
             if(gameBoard[0, i] != TileState.none){
                 var curColor = gameBoard[0, i];
-                for(int j = 1; j < boardHeight - 1; j++){
+                for(int j = 1; j < boardHeight; j++){
                     if(gameBoard[j, i] == curColor || gameBoard[j, i] == TileState.obstacle){
-                        if(j == boardHeight - 2){
+                        if(j == boardHeight - 1){
                             CleanColmn(i);
                             GetCurPlayer().AddPoints(boardHeight);
                         }
