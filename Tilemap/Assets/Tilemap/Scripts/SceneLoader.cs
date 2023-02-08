@@ -8,6 +8,7 @@ public class SceneLoader : MonoBehaviour
 {
     public GameObject starterPanel;
     public GameObject settingsPanel;
+    public GameObject modePanel;
     
     public Toggle musicOn;
     public Toggle musicOff;
@@ -49,8 +50,14 @@ public class SceneLoader : MonoBehaviour
         PlayerPrefs.SetFloat("MapSliderVal", mapSlider.value);
     }
 
-    public void StartGame(){
+    public void StartGameTwoPlayers(){
         SceneManager.LoadScene("SampleScene");
+        PlayerPrefs.SetInt("GameMode", 2);
+    }
+
+    public void StartGameOnePlayer(){
+        SceneManager.LoadScene("SampleScene");
+        PlayerPrefs.SetInt("GameMode", 1);
     }
 
     public void OpenSettings(){
@@ -64,6 +71,11 @@ public class SceneLoader : MonoBehaviour
     public void CloseSettings(){
         starterPanel.SetActive(true);
         settingsPanel.SetActive(false);
+    }
+
+    public void openModePanel(){
+        starterPanel.SetActive(false);
+        modePanel.SetActive(true);
     }
 
     public void MusicOff(){

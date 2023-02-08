@@ -40,8 +40,12 @@ public class Testing : MonoBehaviour {
 
     private void Start() {
         Input.multiTouchEnabled = false; 
-        
+
         int numSize = PlayerPrefs.GetInt("Map", 1);
+
+        //gameMode 1 or 2 players
+        int gameMode = PlayerPrefs.GetInt("GameMode", 1);
+        //Debug.Log(gameMode);
 
         GAME_HEIGHT = GAME_HEIGHT_ARRAY[numSize];
         GAME_WIDTH = GAME_WIDTH_ARRAY[numSize];

@@ -103,6 +103,8 @@ public class UIController : MonoBehaviour
         if(SoundManager.isOn){
             endSound.Play();
         }
+
+        openBonusesButton.GetComponent<Button>().interactable = false;
     }
 
     public void CountinueGameRound(){
@@ -112,6 +114,7 @@ public class UIController : MonoBehaviour
         gm.skipNum = 0;
         notOpenRoundPanel = true;
         gm.CleanOldVal(tm, maxRound);
+        openBonusesButton.GetComponent<Button>().interactable = true;
     }
 
     public void MusicOff(){

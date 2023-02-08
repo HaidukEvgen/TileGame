@@ -281,7 +281,7 @@ public class Game {
         for(int i = 0; i < boardWidth; i++){
             if(gameBoard[0, i] != TileState.none){
                 var curColor = gameBoard[0, i];
-                for(int j = 0; j < boardHeight - 1; j++){
+                for(int j = 1; j < boardHeight - 1; j++){
                     if(gameBoard[j, i] == curColor || gameBoard[j, i] == TileState.obstacle){
                         if(j == boardHeight - 2){
                             CleanColmn(i);
