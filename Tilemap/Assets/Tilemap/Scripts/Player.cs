@@ -35,6 +35,10 @@ public class Player{
         return this.winRounds;
     }
 
+    public void ResetWinRounds(){
+        this.winRounds = 0;
+    }
+
     public Game.TileState GetTileState(){
         return this.tileState;
     }

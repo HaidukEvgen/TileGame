@@ -10,6 +10,8 @@ public class UIController : MonoBehaviour
     public Text roundtxt;
     public Text roundsScoretxt;
     public Text winnertxt;
+    public Text playWinnertxt;
+    public Text finalScoretxt;
 
     public GameObject pausePanel;
     public GameObject curFig;
@@ -21,6 +23,9 @@ public class UIController : MonoBehaviour
     public GameObject bonusesPanel;
     public GameObject openBonusesButton;
     public GameObject closeBonusesButton;
+    public GameObject pauseButton;
+    public GameObject rotateButton;
+    public GameObject endGamePanel;
 
     public AudioSource endSound;
     
@@ -62,6 +67,7 @@ public class UIController : MonoBehaviour
     }
 
     public void CountinueGame(){
+        endGamePanel.SetActive(false);
         tilemap.SetActive(true);
         infPanel.SetActive(true);
         curFig.SetActive(true);
@@ -69,24 +75,43 @@ public class UIController : MonoBehaviour
         Time.timeScale = 1; 
     }
 
+    public void playRotateSound(){
+        rotateButton.GetComponent<AudioSource>().Play();
+    }
+
     public void GotoMenu(){
         SceneManager.LoadScene("StartScene");
+    }
+
+    public void openEndGamePanel(){
+        finalScoretxt.text = "Rounds score: " + gm.GetPlayer1().GetWinRounds().ToString() + " : " + gm.GetPlayer2().GetWinRounds().ToString();
+
+        if(gm.GetPlayer1().GetWinRounds() > gm.GetPlayer2().GetWinRounds()){
+            playWinnertxt.text = "First player won the game";
+        }
+        else if(gm.GetPlayer1().GetWinRounds() < gm.GetPlayer2().GetWinRounds()){
+            playWinnertxt.text = "Second player won the game";
+        }
+        else{
+            playWinnertxt.text = "Draw";
+        }
+
+        endGamePanel.SetActive(true);
+        tilemap.SetActive(false);
+        infPanel.SetActive(false);
+        curFig.SetActive(false);
+
+        if(SoundManager.isOn){
+            endGamePanel.GetComponent<AudioSource>().Play();
+        }
     }
 
     public void roundEnd(int round){
         roundsScoretxt.text = "Rounds score: " + gm.GetPlayer1().GetWinRounds().ToString() + " : " + gm.GetPlayer2().GetWinRounds().ToString();
 
         if (round == maxRound){
-            if(gm.gameScore > 0){
-                winnertxt.text = "The first player won this game";
-            }
-            else if (gm.gameScore < 0){
-                winnertxt.text = "The second player won this game";
-            }
-            else{
-                winnertxt.text = "Draw";
-            }
-            
+            openEndGamePanel();
+            return;
         }
         else if(gm.curWinner == 1){
             winnertxt.text = "First player won this round";
@@ -105,6 +130,8 @@ public class UIController : MonoBehaviour
         }
 
         openBonusesButton.GetComponent<Button>().interactable = false;
+        pauseButton.GetComponent<Button>().interactable = false;
+        rotateButton.GetComponent<Button>().interactable = false;
     }
 
     public void CountinueGameRound(){
@@ -115,6 +142,8 @@ public class UIController : MonoBehaviour
         notOpenRoundPanel = true;
         gm.CleanOldVal(tm, maxRound);
         openBonusesButton.GetComponent<Button>().interactable = true;
+        pauseButton.GetComponent<Button>().interactable = true;
+        rotateButton.GetComponent<Button>().interactable = true;
     }
 
     public void MusicOff(){

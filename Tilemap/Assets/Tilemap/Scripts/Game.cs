@@ -232,6 +232,8 @@ public class Game {
 
         if(this.round == maxRound){
             this.round = 1;
+            this.player1.ResetWinRounds();
+            this.player2.ResetWinRounds();
         }
         else{
             this.round++;
