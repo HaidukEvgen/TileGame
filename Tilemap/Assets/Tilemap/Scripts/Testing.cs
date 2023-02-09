@@ -20,6 +20,9 @@ public class Testing : MonoBehaviour {
     public static Vector3 position;
     private int lastShadowX = -1;
     private int lastShadowY = -1;
+    private bool isShadowDrawn = false;
+    private int curTurnX;
+    private int curTurnY;
 
     public const int GAME_POS_X = -16;
     public const int GAME_POS_Y = -7;
@@ -74,20 +77,20 @@ public class Testing : MonoBehaviour {
         if(!game.IsSingleMode()){
             //if tile was left correctly then put it on the board
             if(processingTurn){
-                processTurn(position);
+                PrepareTurn();
                 processingTurn = false;
             } else {
-                DrawShadow(position);
+                DrawShadow();
             }
         } else {
             if (game.IsFirstPlayerTurn())
                 MakeTurnPC();
             else{
                 if(processingTurn){
-                    processTurn(position);
+                    PrepareTurn();
                     processingTurn = false;
                 } else {
-                    DrawShadow(position);
+                    DrawShadow();
                 }
             }
         }
@@ -106,6 +109,13 @@ public class Testing : MonoBehaviour {
             CMDebug.TextPopupMouse("Loaded!");
         }*/
     } 
+
+    private void PrepareTurn(){
+        /*position += new Vector3(0, game.GetCurHeight(), 0);
+        int x = 0, y = 0;
+        tilemap.GetCoords(position, out x, out y);*/
+        processTurn(curTurnX, curTurnY);
+    }
 
     //create next figure: get its size, draw it and change its collider
     private void CreateNextFigure(int x, int y){
@@ -130,34 +140,36 @@ public class Testing : MonoBehaviour {
         CreateNextFigure(x, y);
     }
 
-    public void DrawShadow(Vector3 position){
-        if(game.GetCurPlayer().IsFirstTurn())
-            return;
+    public void DrawShadow(){
         int figureWidth = game.GetCurWidth();
         int figureHeight = game.GetCurHeight();
+        Player player = game.GetCurPlayer();
         position += new Vector3(0, figureHeight, 0);
         int x = 0, y = 0;
         tilemap.GetCoords(position, out x, out y);
-        if(x == lastShadowX && y == lastShadowY)
+
+        if((x == lastShadowX && y == lastShadowY) || game.GetCurPlayer().IsFirstTurn() )
             return;
-        Player player = game.GetCurPlayer();
-        if (lastShadowX != -1)
-            for(int i = 0; i < figureWidth; i++){
-                for(int j = 0; j < figureHeight; j++){
-                    tilemap.SetTilemapSprite(lastShadowX + i, lastShadowY - j, Tilemap.TilemapObject.TilemapSprite.None);
-                }
-            }
+        if(isShadowDrawn)
+            DrawRectangle(figureWidth, figureHeight, lastShadowX, lastShadowY, Tilemap.TilemapObject.TilemapSprite.None);
+
         if(game.CheckFigure(player, x, y, figureWidth, figureHeight)){
-            for(int i = 0; i < figureWidth; i++){
-                for(int j = 0; j < figureHeight; j++){
-                    tilemap.SetTilemapSprite(x + i, y - j, Tilemap.TilemapObject.TilemapSprite.Shadow);
-                }
-            }
-            lastShadowX = x;
-            lastShadowY = y;
+            DrawRectangle(figureWidth, figureHeight, x, y, Tilemap.TilemapObject.TilemapSprite.Shadow);
+            lastShadowX = curTurnX = x;
+            lastShadowY = curTurnY = y;
+            isShadowDrawn = true;
         } else {
-            lastShadowX = -1;
-            lastShadowY = -1;
+            if(((lastShadowX - x == 1 || lastShadowX - x == -1) && y == lastShadowY) ||
+               ((lastShadowY - y == 1 || lastShadowY - y == -1) && x == lastShadowX)){
+                DrawRectangle(figureWidth, figureHeight, lastShadowX, lastShadowY, Tilemap.TilemapObject.TilemapSprite.Shadow);
+                curTurnX = lastShadowX;
+                curTurnY = lastShadowY;
+                isShadowDrawn = true;
+            } else {
+                lastShadowX = curTurnX = -1;
+                lastShadowY = curTurnY = -1;
+                isShadowDrawn = false;
+            }
         }
     }   
 
@@ -210,8 +222,7 @@ public class Testing : MonoBehaviour {
                 tilemap.SetTilemapSprite(turn.x + i, turn.y - j, tilemapSprite);
             }
         }
-        lastShadowX = -1;
-        lastShadowY = -1;
+        isShadowDrawn = false;
         player.AddPoints(turn.width * turn.height);
         //add this figure to the matrix
         game.AddFigure(player, turn.x, turn.y, turn.width, turn.height);
@@ -223,7 +234,7 @@ public class Testing : MonoBehaviour {
     } 
     
     //is called after player left the figure on the board
-    public void processTurn(Vector3 position){
+    public void processTurn(int x, int y){
         int figureWidth = game.GetCurWidth();
         int figureHeight = game.GetCurHeight(); 
 
@@ -252,9 +263,6 @@ public class Testing : MonoBehaviour {
             player.FirstTurnDone();
             isFirst = true;
         }
-        position += new Vector3(0, figureHeight, 0);
-        int x = 0, y = 0;
-        tilemap.GetCoords(position, out x, out y);
         //if figure is placed incorrectly? throw it back
         if(!game.CheckFigure(player, x, y, figureWidth, figureHeight)){
             Draggable.throwBack = true;
@@ -264,13 +272,10 @@ public class Testing : MonoBehaviour {
             return;
         }
         //else draw it on the field
-        for(int i = 0; i < figureWidth; i++){
-            for(int j = 0; j < figureHeight; j++){
-                tilemap.SetTilemapSprite(x + i, y - j, tilemapSprite);
-            }
-        }
+        DrawRectangle(figureWidth, figureHeight, x, y, tilemapSprite);
         lastShadowX = -1;
         lastShadowY = -1;
+        isShadowDrawn = false;
         player.AddPoints(figureWidth * figureHeight);
         //add this figure to the matrix
         game.AddFigure(player, x, y, figureWidth, figureHeight);
@@ -290,11 +295,7 @@ public class Testing : MonoBehaviour {
             x = GAME_WIDTH - figureWidth;
             y = figureHeight - 1;
         }
-        for(int i = 0; i < figureWidth; i++){
-            for(int j = 0; j < figureHeight; j++){
-                tilemap.SetTilemapSprite(x + i, y - j, tilemapSprite);
-            }
-        }
+        DrawRectangle(figureWidth, figureHeight, x, y, tilemapSprite);
         player.AddPoints(figureWidth * figureHeight);
         game.ChangeTurn(ref tilemapSprite);
         game.AddFigure(player, x, y, figureWidth, figureHeight);
@@ -304,15 +305,19 @@ public class Testing : MonoBehaviour {
 
     private void MakeFirstTurnPC(int figureWidth, int figureHeight, ref Player player, ref Tilemap.TilemapObject.TilemapSprite tilemapSprite){
         int x = 0, y = GAME_HEIGHT - 1;
-        for(int i = 0; i < figureWidth; i++){
-            for(int j = 0; j < figureHeight; j++){
-                tilemap.SetTilemapSprite(x + i, y - j, tilemapSprite);
-            }
-        }
+        DrawRectangle(figureWidth, figureHeight, x, y, tilemapSprite);
         player.AddPoints(figureWidth * figureHeight);
         game.ChangeTurn(ref tilemapSprite);
         game.AddFigure(player, x, y, figureWidth, figureHeight);
         Draggable.throwBack = true;
         CreateNextFigure(game.GetNum(1, 7), game.GetNum(1, 7));
+    }
+
+    private void DrawRectangle(int width, int height, int x, int y, Tilemap.TilemapObject.TilemapSprite tilemapSprite){
+        for(int i = 0; i < width; i++){
+            for(int j = 0; j < height; j++){
+                tilemap.SetTilemapSprite(x + i, y - j, tilemapSprite);
+            }
+        }
     }
 }
