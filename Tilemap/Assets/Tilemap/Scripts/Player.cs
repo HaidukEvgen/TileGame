@@ -14,7 +14,7 @@ public class Player{
         this.winRounds = 0;
         this.tileState = tileState;
         this.firstTurn = true;
-        this. bonuses = new Dictionary<Game.Bonuses, int>();
+        this.bonuses = new Dictionary<Game.Bonuses, int>();
         this.bonuses[Game.Bonuses.bomb] = 0;
         this.bonuses[Game.Bonuses.painter] = 0;
         this.bonuses[Game.Bonuses.resizer] = 0;
@@ -42,6 +42,10 @@ public class Player{
 
     public int GetBonusAmount(Game.Bonuses bonus){
         return this.bonuses[bonus];
+    }
+
+    public void ReduceBonusAmount(Game.Bonuses bonus){
+        this.bonuses[bonus]--;
     }
 
     public void ResetWinRounds(){

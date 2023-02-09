@@ -91,6 +91,11 @@ public class Testing : MonoBehaviour {
                 }
             }
         }
+
+        if(UIController.useResize){
+            UIController.useResize = false;
+            CreateNextFigure(game.GetNum(1, 7), game.GetNum(1, 7));
+        }
         /*
         if (Input.GetKeyDown(KeyCode.P)) {
             tilemap.Save();

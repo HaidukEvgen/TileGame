@@ -12,6 +12,9 @@ public class UIController : MonoBehaviour
     public Text winnertxt;
     public Text playWinnertxt;
     public Text finalScoretxt;
+    public Text bombtxt;
+    public Text rollertxt;
+    public Text resizetxt;
 
     public GameObject pausePanel;
     public GameObject curFig;
@@ -34,6 +37,7 @@ public class UIController : MonoBehaviour
     public static Tilemap tm;
     
     private bool notOpenRoundPanel = true;
+    public static bool useResize = false;
 
     private int maxRound;
 
@@ -153,6 +157,9 @@ public class UIController : MonoBehaviour
     }
 
     public void OpenBonusPanel(){
+        bombtxt.text = "Bomb (X" + gm.GetCurPlayer().GetBonusAmount(Game.Bonuses.bomb).ToString() + ")";
+        rollertxt.text = "Roller (X" + gm.GetCurPlayer().GetBonusAmount(Game.Bonuses.painter).ToString() + ")";
+        resizetxt.text = "Resizer (X" + gm.GetCurPlayer().GetBonusAmount(Game.Bonuses.resizer).ToString() + ")";
         closeBonusesButton.SetActive(true);
         openBonusesButton.SetActive(false);
         curFig.SetActive(false);
@@ -170,5 +177,14 @@ public class UIController : MonoBehaviour
         musicOn.SetActive(true);
         musicOff.SetActive(false);
         SoundManager.startPlay = true;
+    }
+
+    public void changeFig(){
+        if(gm.GetCurPlayer().GetBonusAmount(Game.Bonuses.resizer) > 0){
+            gm.GetCurPlayer().ReduceBonusAmount(Game.Bonuses.resizer);
+            resizetxt.text = "Resizer (X" + gm.GetCurPlayer().GetBonusAmount(Game.Bonuses.resizer).ToString() + ")";
+            useResize = true;
+            CloseBonusesPanel();
+        }
     }
 }
