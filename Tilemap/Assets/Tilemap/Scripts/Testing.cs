@@ -183,9 +183,6 @@ public class Testing : MonoBehaviour {
                 if(game.skipNum == 2){
                     game.MakeNewRound(tilemap);
                 }
-                if(SoundManager.isOn){
-                    wrongSound.Play();
-                }
                 Draggable.throwBack = true;
                 return;   
             }   

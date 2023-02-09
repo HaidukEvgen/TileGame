@@ -7,12 +7,17 @@ public class Player{
     private int winRounds;
     private bool firstTurn;
     private Game.TileState tileState;
+    private Dictionary<Game.Bonuses, int> bonuses;
 
     public Player(Game.TileState tileState){
         this.points = 0;
         this.winRounds = 0;
         this.tileState = tileState;
         this.firstTurn = true;
+        this. bonuses = new Dictionary<Game.Bonuses, int>();
+        this.bonuses[Game.Bonuses.bomb] = 0;
+        this.bonuses[Game.Bonuses.painter] = 0;
+        this.bonuses[Game.Bonuses.resizer] = 0;
     }
 
     public void SetFirstMove(){
@@ -33,6 +38,10 @@ public class Player{
 
     public int GetWinRounds(){
         return this.winRounds;
+    }
+
+    public int GetBonusAmount(Game.Bonuses bonus){
+        return this.bonuses[bonus];
     }
 
     public void ResetWinRounds(){

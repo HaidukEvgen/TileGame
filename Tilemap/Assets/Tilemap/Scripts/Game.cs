@@ -23,6 +23,11 @@ public class Game {
         secondPlayer,
         obstacle
     };
+    public enum Bonuses{
+        bomb,
+        painter,
+        resizer
+    }
     private Turns curTurn;
     private Tilemap tilemap;
 
