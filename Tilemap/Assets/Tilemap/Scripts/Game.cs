@@ -21,7 +21,10 @@ public class Game {
         none,
         firstPlayer,
         secondPlayer,
-        obstacle
+        obstacle,
+        bomb,
+        painter,
+        resizer
     };
     public enum Bonuses{
         bomb,

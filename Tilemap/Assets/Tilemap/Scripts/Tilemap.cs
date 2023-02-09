@@ -125,7 +125,10 @@ public class Tilemap {
             Blue,
             None,
             Red,
-            Shadow            
+            Shadow, 
+            Bomb,
+            Painter,
+            Resizer        
         }
 
         private Grid<TilemapObject> grid;
