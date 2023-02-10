@@ -45,7 +45,6 @@ public class Testing : MonoBehaviour {
 
         //gameMode 1 or 2 players
         bool singleMode = PlayerPrefs.GetInt("GameMode", 1) == 1? true: false;
-        //Debug.Log(gameMode);
 
         GAME_HEIGHT = GAME_HEIGHT_ARRAY[numSize];
         GAME_WIDTH = GAME_WIDTH_ARRAY[numSize];
@@ -111,10 +110,7 @@ public class Testing : MonoBehaviour {
     } 
 
     private void PrepareTurn(){
-        /*position += new Vector3(0, game.GetCurHeight(), 0);
-        int x = 0, y = 0;
-        tilemap.GetCoords(position, out x, out y);*/
-        processTurn(curTurnX, curTurnY);
+        ProcessTurn(curTurnX, curTurnY);
     }
 
     //create next figure: get its size, draw it and change its collider
@@ -144,7 +140,7 @@ public class Testing : MonoBehaviour {
         int figureWidth = game.GetCurWidth();
         int figureHeight = game.GetCurHeight();
         Player player = game.GetCurPlayer();
-        position += new Vector3(0, figureHeight, 0);
+        position += new Vector3(CELL_SIZE / 2, figureHeight - CELL_SIZE / 2, 0);
         int x = 0, y = 0;
         tilemap.GetCoords(position, out x, out y);
 
@@ -217,11 +213,7 @@ public class Testing : MonoBehaviour {
             turn = turns.Pop();
         else
             return;
-        for(int i = 0; i < turn.width; i++){
-            for(int j = 0; j < turn.height; j++){
-                tilemap.SetTilemapSprite(turn.x + i, turn.y - j, tilemapSprite);
-            }
-        }
+        DrawRectangle(turn.width, turn.height, turn.x, turn.y, tilemapSprite);
         isShadowDrawn = false;
         player.AddPoints(turn.width * turn.height);
         //add this figure to the matrix
@@ -234,7 +226,7 @@ public class Testing : MonoBehaviour {
     } 
     
     //is called after player left the figure on the board
-    public void processTurn(int x, int y){
+    public void ProcessTurn(int x, int y){
         int figureWidth = game.GetCurWidth();
         int figureHeight = game.GetCurHeight(); 
 
