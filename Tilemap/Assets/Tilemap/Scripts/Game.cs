@@ -363,35 +363,44 @@ public class Game {
 
     public void TetrisCheck(){
         for(int i = 0; i < boardHeight; i++){
-            if(gameBoard[i, 0] != TileState.none){
-                var curColor = gameBoard[i, 0];
-                for(int j = 1; j < boardWidth; j++){
-                    if(gameBoard[i, j] == curColor || gameBoard[i, j] == TileState.obstacle){
-                        if(j == boardWidth - 1){
-                            CleanRow(i);
-                            GetCurPlayer().AddPoints(boardWidth);
-                        }
-                    }
-                    else{
-                        break;
-                    }
-                }
-            }
+            TetrisRowCheck(i);
         }
 
         for(int i = 0; i < boardWidth; i++){
-            if(gameBoard[0, i] != TileState.none){
-                var curColor = gameBoard[0, i];
-                for(int j = 1; j < boardHeight; j++){
-                    if(gameBoard[j, i] == curColor || gameBoard[j, i] == TileState.obstacle){
-                        if(j == boardHeight - 1){
-                            CleanColmn(i);
-                            GetCurPlayer().AddPoints(boardHeight);
-                        }
+            TetrisColmnCheck(i);
+        }
+    }
+
+    private void TetrisColmnCheck(int i){
+        if(gameBoard[0, i] != TileState.none){
+            var curColor = gameBoard[0, i];
+            for(int j = 1; j < boardHeight; j++){
+                if(gameBoard[j, i] == curColor || gameBoard[j, i] == TileState.obstacle){
+                    if(j == boardHeight - 1){
+                        CleanColmn(i);
+                        GetCurPlayer().AddPoints(boardHeight);
                     }
-                    else{
-                        break;
+                }
+                else{
+                    break;
+                }
+            }
+        }
+    }
+
+    private void TetrisRowCheck(int i){
+        if(gameBoard[i, 0] != TileState.none){
+            var curColor = gameBoard[i, 0];
+            for(int j = 1; j < boardWidth; j++){
+                if(gameBoard[i, j] == curColor || gameBoard[i, j] == TileState.obstacle){
+                    TetrisColmnCheck(j);
+                    if(j == boardWidth - 1){
+                        CleanRow(i);
+                        GetCurPlayer().AddPoints(boardWidth);
                     }
+                }
+                else{
+                    break;
                 }
             }
         }
