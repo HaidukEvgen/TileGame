@@ -147,7 +147,12 @@ public class Testing : MonoBehaviour {
         if((x == lastShadowX && y == lastShadowY) || game.GetCurPlayer().IsFirstTurn() )
             return;
         if(isShadowDrawn)
-            DrawRectangle(figureWidth, figureHeight, lastShadowX, lastShadowY, Tilemap.TilemapObject.TilemapSprite.None);
+            for(int i = 0; i < figureWidth; i++){
+                for(int j = 0; j < figureHeight; j++){
+                    Tilemap.TilemapObject.TilemapSprite tilemapSprite = game.GetSpriteInCaseOfBonus(lastShadowX + i, lastShadowY - j);
+                    tilemap.SetTilemapSprite(lastShadowX + i, lastShadowY - j, tilemapSprite);
+                }
+            }
 
         if(game.CheckFigure(player, x, y, figureWidth, figureHeight)){
             DrawRectangle(figureWidth, figureHeight, x, y, Tilemap.TilemapObject.TilemapSprite.Shadow);

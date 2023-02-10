@@ -53,6 +53,7 @@ public class Game {
             for(int j = 0; j < boardWidth; j++)
                 gameBoard[i, j] = TileState.none;
         SpawnObstacles(tilemap);
+        SpawnBonus(tilemap);
     }
 
     public void SetCurWidth(int x){
@@ -149,6 +150,21 @@ public class Game {
             return Tilemap.TilemapObject.TilemapSprite.Painter;
         return Tilemap.TilemapObject.TilemapSprite.Resizer;
     } 
+
+    public Tilemap.TilemapObject.TilemapSprite GetBonusSprite(TileState tileState){
+        if(tileState == TileState.bomb)
+            return Tilemap.TilemapObject.TilemapSprite.Bomb;
+        if(tileState == TileState.painter)
+            return Tilemap.TilemapObject.TilemapSprite.Painter;
+        if(tileState == TileState.resizer)    
+            return Tilemap.TilemapObject.TilemapSprite.Resizer;
+        return Tilemap.TilemapObject.TilemapSprite.None;
+    } 
+
+    public Tilemap.TilemapObject.TilemapSprite GetSpriteInCaseOfBonus(int x, int y){
+        GetBoardXY(ref x, ref y);
+        return this.GetBonusSprite(gameBoard[x, y]);
+    }
 
     private void SetObstacle(int x, int y, Tilemap tilemap, Tilemap.TilemapObject.TilemapSprite tilemapSprite){
         gameBoard[x, y] = TileState.obstacle;
