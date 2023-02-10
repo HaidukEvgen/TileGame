@@ -4,6 +4,7 @@ using UnityEngine;
 using CodeMonkey.Utils;
 using CodeMonkey;
 using System;
+using System.Threading;
 
 public class Testing : MonoBehaviour {
 
@@ -188,6 +189,7 @@ public class Testing : MonoBehaviour {
     }
 
     public void MakeTurnPC(){
+        Thread.Sleep(game.GetNum(500, 1500));
         int figureWidth = game.GetCurWidth();
         int figureHeight = game.GetCurHeight();
 
