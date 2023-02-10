@@ -81,8 +81,9 @@ public class Testing : MonoBehaviour {
                 DrawShadow();
             }
         } else {
-            if (game.IsFirstPlayerTurn())
+            if (game.IsFirstPlayerTurn()){
                 MakeTurnPC();
+            }
             else{
                 if(processingTurn){
                     PrepareTurn();

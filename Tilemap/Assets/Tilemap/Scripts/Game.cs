@@ -15,7 +15,6 @@ public class Game {
     public int round;
     public int skipNum;
     public int gameScore;
-    public int curWinner;
     public enum Turns{firstPlTurn, secondPlTurn};
     public enum TileState{
         none,
@@ -46,7 +45,6 @@ public class Game {
         this.inGame = true;
         this.skipNum = 0;
         this.gameScore = 0;
-        this.curWinner = 0;
         this.tilemap = tilemap;
         gameBoard = new TileState[boardHeight, boardWidth];
         for(int i = 0; i < boardHeight; i++)
@@ -286,16 +284,11 @@ public class Game {
         
         if(this.player1.GetPoints() > this.player2.GetPoints()){
             this.gameScore++;
-            this.curWinner = 1;
             this.player1.AddWin();
         }
         else if(this.player2.GetPoints() > this.player1.GetPoints()){
             this.gameScore--;
-            this.curWinner = 2;
             this.player2.AddWin();
-        }
-        else{
-            this.curWinner = 0;
         }
     }
 

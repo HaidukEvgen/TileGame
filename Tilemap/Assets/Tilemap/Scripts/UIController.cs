@@ -119,10 +119,10 @@ public class UIController : MonoBehaviour
             openEndGamePanel();
             return;
         }
-        else if(gm.curWinner == 1){
+        else if(gm.GetPlayer1().GetPoints() > gm.GetPlayer2().GetPoints()){
             winnertxt.text = "First player won this round";
         }
-        else if (gm.curWinner == 2){
+        else if (gm.GetPlayer1().GetPoints() < gm.GetPlayer2().GetPoints()){
             winnertxt.text = "Second player won this round";
         }
         else{
