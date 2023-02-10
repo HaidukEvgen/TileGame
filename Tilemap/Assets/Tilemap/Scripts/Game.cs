@@ -113,6 +113,43 @@ public class Game {
             }
     }
 
+    private void SpawnBonus(Tilemap tilemap){
+        int a = GetNum(0, 4); 
+        Bonuses curBonus;  
+        if(a == 1)
+            curBonus = Bonuses.bomb;
+        else if(a == 2 )
+            curBonus = Bonuses.painter;
+        else
+            curBonus = Bonuses.resizer;
+        int i, j;
+        while(true){
+            i = GetNum(0, this.boardHeight);
+            j = GetNum(0, this.boardWidth);
+            if(gameBoard[i, j] == TileState.none)
+                break;
+        }
+        gameBoard[i, j] = GetBonusTileState(curBonus);
+        GetMapXY(ref i, ref j);
+        tilemap.SetTilemapSprite(i, j, GetBonusSprite(curBonus));
+    }
+
+    public TileState GetBonusTileState(Bonuses bonus){
+        if(bonus == Bonuses.bomb)
+            return TileState.bomb;
+        if(bonus == Bonuses.painter)
+            return TileState.painter;
+        return TileState.resizer;
+    }  
+
+    public Tilemap.TilemapObject.TilemapSprite GetBonusSprite(Bonuses bonus){
+        if(bonus == Bonuses.bomb)
+            return Tilemap.TilemapObject.TilemapSprite.Bomb;
+        if(bonus == Bonuses.painter)
+            return Tilemap.TilemapObject.TilemapSprite.Painter;
+        return Tilemap.TilemapObject.TilemapSprite.Resizer;
+    } 
+
     private void SetObstacle(int x, int y, Tilemap tilemap, Tilemap.TilemapObject.TilemapSprite tilemapSprite){
         gameBoard[x, y] = TileState.obstacle;
         GetMapXY(ref x, ref y);
@@ -138,6 +175,10 @@ public class Game {
         return canBePlaced;
     }
 
+    private bool IsBonusTile(TileState tileState){
+        return (tileState == TileState.bomb || tileState == TileState.painter || tileState == TileState.resizer);
+    }
+
     //check if figure can be placed there where it was left
     public bool CheckFigure(Player player, int x, int y, int width, int height){
         Game.TileState tileState = player.GetTileState(); 
@@ -156,7 +197,7 @@ public class Game {
         for(int i = x; i < x + height; i++)
             for(int j = y; j < y + width; j++){
                 //if placed on top of the non empty tile 
-                if (gameBoard[i, j] != TileState.none)
+                if (!IsBonusTile(gameBoard[i, j]) && gameBoard[i, j] != TileState.none)
                     return false;
                 if(!flag){
                     //if there are same tiles above the figure
@@ -247,6 +288,7 @@ public class Game {
             this.round++;
         }
         SpawnObstacles(tilemap);
+        SpawnBonus(tilemap);
     }
 
     public Player GetPlayer1(){
