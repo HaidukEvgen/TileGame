@@ -71,7 +71,6 @@ public class Testing : MonoBehaviour {
 
         wrongSound = gameObject.GetComponent<AudioSource>();
     }
-
     private void Update() {
         if(!game.IsSingleMode()){
             //if tile was left correctly then put it on the board

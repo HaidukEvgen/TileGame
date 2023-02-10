@@ -80,7 +80,9 @@ public class UIController : MonoBehaviour
     }
 
     public void playRotateSound(){
-        rotateButton.GetComponent<AudioSource>().Play();
+        if(SoundManager.isOn){
+            rotateButton.GetComponent<AudioSource>().Play();
+        }
     }
 
     public void GotoMenu(){

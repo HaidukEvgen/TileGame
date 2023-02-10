@@ -40,6 +40,10 @@ public class Player{
         return this.winRounds;
     }
 
+    public void IncreaseBonusAmount(Game.Bonuses bonus){
+        this.bonuses[bonus]++;
+    }
+
     public int GetBonusAmount(Game.Bonuses bonus){
         return this.bonuses[bonus];
     }

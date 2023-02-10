@@ -235,12 +235,28 @@ public class Game {
         return true;
     }
 
+    private void addBonus(Player player, int a, int b){
+        if(gameBoard[a, b] == Game.TileState.bomb){
+            player.IncreaseBonusAmount(Game.Bonuses.bomb);
+        }
+        else if(gameBoard[a, b] == Game.TileState.painter){
+            player.IncreaseBonusAmount(Game.Bonuses.painter);
+        }
+        else{
+            player.IncreaseBonusAmount(Game.Bonuses.resizer);
+        }
+    }
+
     //mark the figure location in matrix
     public void AddFigure(Player player, int x, int y, int width, int height){
         GetBoardXY(ref x, ref y);
         for(int i = x; i < x + height; i++)
-            for(int j = y; j < y + width; j++)
+            for(int j = y; j < y + width; j++){
+                if(IsBonusTile(gameBoard[i, j])){
+                    addBonus(player, i, j);
+                }
                 gameBoard[i, j] = player.GetTileState();
+            }
 
         TetrisCheck();
     }
