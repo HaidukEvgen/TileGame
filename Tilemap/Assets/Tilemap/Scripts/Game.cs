@@ -188,15 +188,26 @@ public class Game {
         return false;
     }
 
-    public bool CanBePlaced(int width, int height, ref Stack<Testing.PCTurns> stack){
+    public bool CanBePlaced(int width, int height, ref Stack<Testing.PCTurns> stack, ref Testing.PCTurns bonusTurn){
         bool canBePlaced = false;
         for(int x = 0; x < boardWidth; x++)
             for(int y = 0; y < boardHeight; y++)
                 if(CheckFigure(this.GetCurPlayer(), x, y, width, height)){
                     canBePlaced = true;
                     stack.Push(new Testing.PCTurns(x, y, width, height));
+                    if(BonusCanBeCollected(x, y, width, height))
+                        bonusTurn = new Testing.PCTurns(x, y, width, height);
                 }
         return canBePlaced;
+    }
+
+    private bool BonusCanBeCollected(int x, int y, int width, int height){
+        GetBoardXY(ref x, ref y);
+        for(int i = x; i < x + height; i++)
+            for(int j = y; j < y + width; j++)
+                if(IsBonusTile(gameBoard[i, j]))
+                    return true;
+        return false;
     }
 
     private bool IsBonusTile(TileState tileState){

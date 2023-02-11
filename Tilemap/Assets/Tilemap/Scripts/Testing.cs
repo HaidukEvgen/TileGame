@@ -217,8 +217,11 @@ public class Testing : MonoBehaviour {
 
         Stack<PCTurns> turns = new Stack<PCTurns>();
 
+        PCTurns bonusTurn1 = new PCTurns(-1, -1, -1, -1);
+        PCTurns bonusTurn2 = new PCTurns(-1, -1, -1, -1);
+
         if(!game.GetCurPlayer().IsFirstTurn()){
-            if(!game.CanBePlaced(figureWidth, figureHeight, ref turns) && !game.CanBePlaced(figureHeight, figureWidth, ref turns)){
+            if(!game.CanBePlaced(figureWidth, figureHeight, ref turns, ref bonusTurn1) && !game.CanBePlaced(figureHeight, figureWidth, ref turns, ref bonusTurn2)){
                 game.ChangeTurn(ref tilemapSprite);
                 CreateNextFigure(game.GetNum(1, 7), game.GetNum(1, 7));
                 game.skipNum++;
@@ -229,6 +232,11 @@ public class Testing : MonoBehaviour {
                 return;   
             }   
         }
+
+        if(bonusTurn1.x != -1)
+            turns.Push(bonusTurn1);
+        if(bonusTurn2.x != -1)
+            turns.Push(bonusTurn2);
 
         game.skipNum = 0;
 
