@@ -99,6 +99,11 @@ public class Testing : MonoBehaviour {
             UIController.useResize = false;
             CreateNextFigure(game.GetNum(1, 7), game.GetNum(1, 7));
         }
+
+        if(UIController.useBomb){
+            UIController.useBomb = false;
+            setBomb();
+        }
         /*
         if (Input.GetKeyDown(KeyCode.P)) {
             tilemap.Save();
@@ -128,6 +133,23 @@ public class Testing : MonoBehaviour {
         curFigure.SetTilemapVisual(curFigureVisual);
 
         Draggable.ChangeCollider(x, y);
+    }
+
+    public void setBomb(){
+        Draggable.throwBack = true;
+        game.SetCurWidth(1);
+        game.SetCurHeight(1);
+        Draggable.width = 1;
+        Draggable.height = 1;
+
+        tilemapSprite = Tilemap.TilemapObject.TilemapSprite.Bomb;
+        
+        curFigure.DrawFigure(1, 1, tilemapSprite);
+        curFigure.SetTilemapVisual(curFigureVisual);
+
+        Draggable.ChangeCollider(1, 1);
+
+        game.SetBomb();
     }
 
     //change rotate figure: change its size, draw it and change its collider
@@ -278,11 +300,63 @@ public class Testing : MonoBehaviour {
         player.AddPoints(figureWidth * figureHeight);
         //add this figure to the matrix
         game.AddFigure(player, x, y, figureWidth, figureHeight);
+
+        if(game.isBomb){
+            blowBomb(x, y, player);
+            game.ResetBomb();
+        }   
+
         //change players
         game.ChangeTurn(ref tilemapSprite);
         Draggable.throwBack = true;
         //and create next
         CreateNextFigure(game.GetNum(1, 7), game.GetNum(1, 7));
+    }
+
+    private void blowBomb(int x, int y, Player player){
+        if(x == GAME_WIDTH - 1){
+            if(y == 0){
+                DrawRectangle(2, 2, x - 1, y + 1, game.IsFirstPlayerTurn()? Tilemap.TilemapObject.TilemapSprite.Blue: Tilemap.TilemapObject.TilemapSprite.Red);
+                game.AddFigure(player, x - 1, y + 1, 2, 2);
+            }
+            else if(y == GAME_HEIGHT - 1){
+                DrawRectangle(2, 2, x - 1, y - 1, game.IsFirstPlayerTurn()? Tilemap.TilemapObject.TilemapSprite.Blue: Tilemap.TilemapObject.TilemapSprite.Red);
+                game.AddFigure(player, x - 1, y - 1, 2, 2);
+            }
+            else{
+                DrawRectangle(2, 3, x - 1, y+1, game.IsFirstPlayerTurn()? Tilemap.TilemapObject.TilemapSprite.Blue: Tilemap.TilemapObject.TilemapSprite.Red);
+                game.AddFigure(player, x - 1, y+1, 2, 3);
+            }
+        }
+        else if(x == 0){
+            if(y == 0){
+                DrawRectangle(2, 2, x, y + 1, game.IsFirstPlayerTurn()? Tilemap.TilemapObject.TilemapSprite.Blue: Tilemap.TilemapObject.TilemapSprite.Red);
+                game.AddFigure(player, x, y + 1, 2, 2);
+            }
+            else if(y == GAME_HEIGHT - 1){
+                DrawRectangle(2, 2, x, y - 1, game.IsFirstPlayerTurn()? Tilemap.TilemapObject.TilemapSprite.Blue: Tilemap.TilemapObject.TilemapSprite.Red);
+                game.AddFigure(player, x, y - 1, 2, 2);
+            }
+            else{
+                DrawRectangle(2, 3, x, y+1, game.IsFirstPlayerTurn()? Tilemap.TilemapObject.TilemapSprite.Blue: Tilemap.TilemapObject.TilemapSprite.Red);
+                game.AddFigure(player, x, y+1, 2, 3);
+            }
+        }
+
+        else if(y == 0){
+            DrawRectangle(3, 2, x - 1, y + 1, game.IsFirstPlayerTurn()? Tilemap.TilemapObject.TilemapSprite.Blue: Tilemap.TilemapObject.TilemapSprite.Red);
+            game.AddFigure(player, x - 1, y + 1, 2, 2);
+        }
+
+        else if(y == GAME_HEIGHT - 1){
+            DrawRectangle(3, 2, x - 1, y - 1, game.IsFirstPlayerTurn()? Tilemap.TilemapObject.TilemapSprite.Blue: Tilemap.TilemapObject.TilemapSprite.Red);
+            game.AddFigure(player, x - 1, y - 1, 2, 2);
+        }
+
+        else{
+            DrawRectangle(3, 3, x - 1, y + 1, game.IsFirstPlayerTurn()? Tilemap.TilemapObject.TilemapSprite.Blue: Tilemap.TilemapObject.TilemapSprite.Red);
+            game.AddFigure(player, x - 1, y + 1, 2, 2);
+        }
     }
 
     private void MakeFirstTurn(int figureWidth, int figureHeight, ref Player player, ref Tilemap.TilemapObject.TilemapSprite tilemapSprite){

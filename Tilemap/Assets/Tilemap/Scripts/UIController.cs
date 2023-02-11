@@ -38,6 +38,7 @@ public class UIController : MonoBehaviour
     
     private bool notOpenRoundPanel = true;
     public static bool useResize = false;
+    public static bool useBomb = false;
 
     private int maxRound;
 
@@ -188,5 +189,10 @@ public class UIController : MonoBehaviour
             useResize = true;
             CloseBonusesPanel();
         }
+    }
+
+    public void bomb(){
+        useBomb = true;
+        CloseBonusesPanel();
     }
 }

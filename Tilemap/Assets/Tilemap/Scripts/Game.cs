@@ -15,6 +15,7 @@ public class Game {
     public int round;
     public int skipNum;
     public int gameScore;
+    public bool isBomb;
     public enum Turns{firstPlTurn, secondPlTurn};
     public enum TileState{
         none,
@@ -46,12 +47,21 @@ public class Game {
         this.skipNum = 0;
         this.gameScore = 0;
         this.tilemap = tilemap;
+        this.isBomb = false;
         gameBoard = new TileState[boardHeight, boardWidth];
         for(int i = 0; i < boardHeight; i++)
             for(int j = 0; j < boardWidth; j++)
                 gameBoard[i, j] = TileState.none;
         SpawnObstacles(tilemap);
         SpawnBonus(tilemap);
+    }
+
+    public void SetBomb(){
+        this.isBomb = true;
+    }
+
+    public void ResetBomb(){
+        this.isBomb = false;
     }
 
     public void SetCurWidth(int x){
@@ -199,6 +209,7 @@ public class Game {
         GetBoardXY(ref x, ref y);
         if(x < 0 || y < 0 || x + height > boardHeight || y + width > boardWidth)
             return false;
+        
         //check if figure is placed in the corner during fitst turn
         if(player.IsFirstTurn()){
             if(player.IsUpperPlayer() && (x != 0 || y != 0))
@@ -210,6 +221,15 @@ public class Game {
         bool flag = false;
         for(int i = x; i < x + height; i++)
             for(int j = y; j < y + width; j++){
+
+                if(isBomb){
+                    if(gameBoard[i, j] == tileState){
+                        return true;
+                    }
+                    else if(gameBoard[i, j] != tileState && gameBoard[i, j] != TileState.none){
+                        return false;
+                    }
+                }
                 //if placed on top of the non empty tile 
                 if (!IsBonusTile(gameBoard[i, j]) && gameBoard[i, j] != TileState.none)
                     return false;
