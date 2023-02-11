@@ -322,48 +322,50 @@ public class Testing : MonoBehaviour {
     }
 
     private void blowBomb(int x, int y, Player player){
+        Tilemap.TilemapObject.TilemapSprite tilemap = game.IsFirstPlayerTurn()? Tilemap.TilemapObject.TilemapSprite.Blue: Tilemap.TilemapObject.TilemapSprite.Red;
+        
         if(x == GAME_WIDTH - 1){
             if(y == 0){
-                DrawRectangle(2, 2, x - 1, y + 1, game.IsFirstPlayerTurn()? Tilemap.TilemapObject.TilemapSprite.Blue: Tilemap.TilemapObject.TilemapSprite.Red);
+                DrawRectangle(2, 2, x - 1, y + 1, tilemap);
                 game.AddFigure(player, x - 1, y + 1, 2, 2);
             }
             else if(y == GAME_HEIGHT - 1){
-                DrawRectangle(2, 2, x - 1, y - 1, game.IsFirstPlayerTurn()? Tilemap.TilemapObject.TilemapSprite.Blue: Tilemap.TilemapObject.TilemapSprite.Red);
+                DrawRectangle(2, 2, x - 1, y - 1, tilemap);
                 game.AddFigure(player, x - 1, y - 1, 2, 2);
             }
             else{
-                DrawRectangle(2, 3, x - 1, y+1, game.IsFirstPlayerTurn()? Tilemap.TilemapObject.TilemapSprite.Blue: Tilemap.TilemapObject.TilemapSprite.Red);
+                DrawRectangle(2, 3, x - 1, y+1, tilemap);
                 game.AddFigure(player, x - 1, y+1, 2, 3);
             }
         }
         else if(x == 0){
             if(y == 0){
-                DrawRectangle(2, 2, x, y + 1, game.IsFirstPlayerTurn()? Tilemap.TilemapObject.TilemapSprite.Blue: Tilemap.TilemapObject.TilemapSprite.Red);
+                DrawRectangle(2, 2, x, y + 1, tilemap);
                 game.AddFigure(player, x, y + 1, 2, 2);
             }
             else if(y == GAME_HEIGHT - 1){
-                DrawRectangle(2, 2, x, y - 1, game.IsFirstPlayerTurn()? Tilemap.TilemapObject.TilemapSprite.Blue: Tilemap.TilemapObject.TilemapSprite.Red);
+                DrawRectangle(2, 2, x, y - 1, tilemap);
                 game.AddFigure(player, x, y - 1, 2, 2);
             }
             else{
-                DrawRectangle(2, 3, x, y+1, game.IsFirstPlayerTurn()? Tilemap.TilemapObject.TilemapSprite.Blue: Tilemap.TilemapObject.TilemapSprite.Red);
+                DrawRectangle(2, 3, x, y+1, tilemap);
                 game.AddFigure(player, x, y+1, 2, 3);
             }
         }
 
         else if(y == 0){
-            DrawRectangle(3, 2, x - 1, y + 1, game.IsFirstPlayerTurn()? Tilemap.TilemapObject.TilemapSprite.Blue: Tilemap.TilemapObject.TilemapSprite.Red);
-            game.AddFigure(player, x - 1, y + 1, 2, 2);
+            DrawRectangle(3, 2, x - 1, y + 1, tilemap);
+            game.AddFigure(player, x - 1, y + 1, 3, 2);
         }
 
         else if(y == GAME_HEIGHT - 1){
-            DrawRectangle(3, 2, x - 1, y - 1, game.IsFirstPlayerTurn()? Tilemap.TilemapObject.TilemapSprite.Blue: Tilemap.TilemapObject.TilemapSprite.Red);
-            game.AddFigure(player, x - 1, y - 1, 2, 2);
+            DrawRectangle(3, 2, x - 1, y - 1, tilemap);
+            game.AddFigure(player, x - 1, y - 1, 3, 2);
         }
 
         else{
-            DrawRectangle(3, 3, x - 1, y + 1, game.IsFirstPlayerTurn()? Tilemap.TilemapObject.TilemapSprite.Blue: Tilemap.TilemapObject.TilemapSprite.Red);
-            game.AddFigure(player, x - 1, y + 1, 2, 2);
+            DrawRectangle(3, 3, x - 1, y + 1, tilemap);
+            game.AddFigure(player, x - 1, y + 1, 3, 3);
         }
     }
 
