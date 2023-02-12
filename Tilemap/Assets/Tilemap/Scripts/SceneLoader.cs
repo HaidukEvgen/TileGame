@@ -11,7 +11,7 @@ public class SceneLoader : MonoBehaviour
     public GameObject modePanel;
     
     public Toggle musicOn;
-    public Toggle musicOff;
+    public Toggle effectsOn;
 
     public Slider roundSlider;
     public Text roundtxt;
@@ -64,7 +64,7 @@ public class SceneLoader : MonoBehaviour
         starterPanel.SetActive(false);
         settingsPanel.SetActive(true);
         if(SoundManager.isOn != true){
-            MusicOff();
+            musicOn.isOn = false; 
         }
     }
 
@@ -78,24 +78,20 @@ public class SceneLoader : MonoBehaviour
         modePanel.SetActive(true);
     }
 
-    public void MusicOff(){
-        if(musicOff.isOn){
-            musicOn.isOn = false; 
-            SoundManager.stopPlay = true;
+    public void EffectsOff(){
+        if(effectsOn.isOn){
+            SoundManager.isSoundEffectsOn = true;
         }
         else{
-            musicOn.isOn = true;
-            SoundManager.startPlay = true;
+            SoundManager.isSoundEffectsOn = false;
         }
     }
 
     public void MusicOn(){
         if(musicOn.isOn){
-            musicOff.isOn = false; 
             SoundManager.startPlay = true;
         }
         else{
-            musicOff.isOn = true;
             SoundManager.stopPlay = true;
         }
     }

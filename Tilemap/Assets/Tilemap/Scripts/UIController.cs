@@ -31,6 +31,8 @@ public class UIController : MonoBehaviour
     public GameObject endGamePanel;
 
     public AudioSource endSound;
+    public AudioSource changeFigSound;
+    public AudioSource wrongSound;
     
     public static Game gm;
     
@@ -41,6 +43,8 @@ public class UIController : MonoBehaviour
     public static bool useBomb = false;
 
     private int maxRound;
+
+    public int minBonusCount = -10;
 
     void Start(){
         maxRound = PlayerPrefs.GetInt("Rounds", 3);
@@ -81,7 +85,7 @@ public class UIController : MonoBehaviour
     }
 
     public void playRotateSound(){
-        if(SoundManager.isOn){
+        if(SoundManager.isOn && SoundManager.isSoundEffectsOn){
             rotateButton.GetComponent<AudioSource>().Play();
         }
     }
@@ -132,7 +136,7 @@ public class UIController : MonoBehaviour
 
         curFig.SetActive(false);
         endRoundPanel.SetActive(true);
-        if(SoundManager.isOn){
+        if(SoundManager.isOn && SoundManager.isSoundEffectsOn){
             endSound.Play();
         }
 
@@ -183,16 +187,34 @@ public class UIController : MonoBehaviour
     }
 
     public void changeFig(){
-        if(gm.GetCurPlayer().GetBonusAmount(Game.Bonuses.resizer) > 0){
+        if(gm.GetCurPlayer().GetBonusAmount(Game.Bonuses.resizer) > minBonusCount){
             gm.GetCurPlayer().ReduceBonusAmount(Game.Bonuses.resizer);
             resizetxt.text = "Resizer (X" + gm.GetCurPlayer().GetBonusAmount(Game.Bonuses.resizer).ToString() + ")";
             useResize = true;
+            if(SoundManager.isOn && SoundManager.isSoundEffectsOn){
+                changeFigSound.Play();
+            }
             CloseBonusesPanel();
+        }
+        else{
+            if(SoundManager.isOn && SoundManager.isSoundEffectsOn){
+                wrongSound.Play();
+            }
         }
     }
 
-    public void bomb(){
-        useBomb = true;
-        CloseBonusesPanel();
+    public void selectBomb(){
+        if(gm.GetCurPlayer().GetBonusAmount(Game.Bonuses.bomb) > minBonusCount){
+            gm.GetCurPlayer().ReduceBonusAmount(Game.Bonuses.bomb);
+            bombtxt.text = "Bomb (X" + gm.GetCurPlayer().GetBonusAmount(Game.Bonuses.bomb).ToString() + ")";
+            useBomb = true;
+            playRotateSound();
+            CloseBonusesPanel();
+        }
+        else{
+            if(SoundManager.isOn && SoundManager.isSoundEffectsOn){
+                wrongSound.Play();
+            }
+        }
     }
 }

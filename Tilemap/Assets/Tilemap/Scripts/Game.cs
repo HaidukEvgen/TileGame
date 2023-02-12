@@ -33,6 +33,7 @@ public class Game {
     }
     private Turns curTurn;
     private Tilemap tilemap;
+    public AudioSource collectBonusSound;
 
     //initialize new game with borad's width and height, players as well as 0's in the cells
     public Game(int x, int y, Tilemap tilemap, bool singleMode){
@@ -54,6 +55,10 @@ public class Game {
                 gameBoard[i, j] = TileState.none;
         SpawnObstacles(tilemap);
         SpawnBonus(tilemap);
+    }
+
+    public void SetCollectSound(AudioSource aud){
+        this.collectBonusSound = aud;
     }
 
     public void SetBomb(){
@@ -274,6 +279,9 @@ public class Game {
         else{
             player.IncreaseBonusAmount(Game.Bonuses.resizer);
         }
+
+        if(SoundManager.isOn && SoundManager.isSoundEffectsOn)
+            collectBonusSound.Play();
     }
 
     //mark the figure location in matrix
@@ -288,6 +296,20 @@ public class Game {
             }
 
         TetrisCheck();
+    }
+
+    public void BombPointsAdd(Player player, int x, int y, int width, int height){
+        int count = 0;
+        GetBoardXY(ref x, ref y);
+        for(int i = x; i < x + height; i++){
+            for(int j = y; j < y + width; j++){
+                if(gameBoard[i, j] == TileState.none){
+                    count++;
+                }
+            }
+        }
+
+        player.AddPoints(count);
     }
 
     //transform grid's coordinates to board's ones
@@ -426,7 +448,7 @@ public class Game {
                 else{
                     break;
                 }
-            }
+            } 
         }
     }
 }

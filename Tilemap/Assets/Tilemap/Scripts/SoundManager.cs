@@ -8,6 +8,7 @@ public class SoundManager : MonoBehaviour
     public static bool startPlay = false;
     public static bool stopPlay = false;
     public static bool isOn = true;
+    public static bool isSoundEffectsOn = true;
 
     private AudioSource sound;
 

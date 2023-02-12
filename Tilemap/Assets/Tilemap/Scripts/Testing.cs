@@ -9,6 +9,8 @@ using System.Threading;
 public class Testing : MonoBehaviour {
 
     private AudioSource wrongSound;
+    public AudioSource blowBombSound;
+    public AudioSource collectBonusSound;
 
     [SerializeField] private TilemapVisual tilemapVisual;
     [SerializeField] private TilemapVisual curFigureVisual;
@@ -71,6 +73,7 @@ public class Testing : MonoBehaviour {
         CreateNextFigure(x, y);
 
         wrongSound = gameObject.GetComponent<AudioSource>();
+        game.SetCollectSound(collectBonusSound);
     }
     private void Update() {
         if(!game.IsSingleMode()){
@@ -275,7 +278,7 @@ public class Testing : MonoBehaviour {
                 if(game.skipNum == 2){
                     game.MakeNewRound(tilemap);
                 }
-                if(SoundManager.isOn){
+                if(SoundManager.isOn && SoundManager.isSoundEffectsOn){
                     wrongSound.Play();
                 }
                 Draggable.throwBack = true;
@@ -295,7 +298,7 @@ public class Testing : MonoBehaviour {
         //if figure is placed incorrectly? throw it back
         if(!game.CheckFigure(player, x, y, figureWidth, figureHeight)){
             Draggable.throwBack = true;
-            if(SoundManager.isOn && !isFirst){
+            if(SoundManager.isOn && !isFirst && SoundManager.isSoundEffectsOn){
                 wrongSound.Play();
             }
             return;
@@ -305,14 +308,15 @@ public class Testing : MonoBehaviour {
         lastShadowX = -1;
         lastShadowY = -1;
         isShadowDrawn = false;
-        player.AddPoints(figureWidth * figureHeight);
+
         //add this figure to the matrix
-        game.AddFigure(player, x, y, figureWidth, figureHeight);
+        game.AddFigure(player, x, y, figureWidth, figureHeight); 
+        player.AddPoints(figureWidth * figureHeight);
 
         if(game.isBomb){
             blowBomb(x, y, player);
             game.ResetBomb();
-        }   
+        }  
 
         //change players
         game.ChangeTurn(ref tilemapSprite);
@@ -322,51 +326,80 @@ public class Testing : MonoBehaviour {
     }
 
     private void blowBomb(int x, int y, Player player){
+        if(SoundManager.isOn && SoundManager.isSoundEffectsOn){
+            blowBombSound.Play();
+        }
+        
         Tilemap.TilemapObject.TilemapSprite tilemap = game.IsFirstPlayerTurn()? Tilemap.TilemapObject.TilemapSprite.Blue: Tilemap.TilemapObject.TilemapSprite.Red;
+        
+        int xFig, yFig;
+        int widthFig, heightFig;
         
         if(x == GAME_WIDTH - 1){
             if(y == 0){
-                DrawRectangle(2, 2, x - 1, y + 1, tilemap);
-                game.AddFigure(player, x - 1, y + 1, 2, 2);
+                widthFig = 2;
+                heightFig = 2;
+                xFig = x - 1;
+                yFig = y + 1;
             }
             else if(y == GAME_HEIGHT - 1){
-                DrawRectangle(2, 2, x - 1, y - 1, tilemap);
-                game.AddFigure(player, x - 1, y - 1, 2, 2);
+                widthFig = 2;
+                heightFig = 2;
+                xFig = x - 1;
+                yFig = y - 1;
             }
             else{
-                DrawRectangle(2, 3, x - 1, y+1, tilemap);
-                game.AddFigure(player, x - 1, y+1, 2, 3);
+                widthFig = 2;
+                heightFig = 3;
+                xFig = x - 1;
+                yFig = y + 1;
             }
         }
         else if(x == 0){
             if(y == 0){
-                DrawRectangle(2, 2, x, y + 1, tilemap);
-                game.AddFigure(player, x, y + 1, 2, 2);
+                widthFig = 2;
+                heightFig = 2;
+                xFig = x;
+                yFig = y + 1;
             }
             else if(y == GAME_HEIGHT - 1){
-                DrawRectangle(2, 2, x, y - 1, tilemap);
-                game.AddFigure(player, x, y - 1, 2, 2);
+                widthFig = 2;
+                heightFig = 2;
+                xFig = x;
+                yFig = y - 1;
             }
             else{
-                DrawRectangle(2, 3, x, y+1, tilemap);
-                game.AddFigure(player, x, y+1, 2, 3);
+                widthFig = 2;
+                heightFig = 3;
+                xFig = x;
+                yFig = y + 1;
             }
         }
 
         else if(y == 0){
-            DrawRectangle(3, 2, x - 1, y + 1, tilemap);
-            game.AddFigure(player, x - 1, y + 1, 3, 2);
+            widthFig = 3;
+            heightFig = 2;
+            xFig = x - 1;
+            yFig = y + 1;
         }
 
         else if(y == GAME_HEIGHT - 1){
-            DrawRectangle(3, 2, x - 1, y - 1, tilemap);
-            game.AddFigure(player, x - 1, y - 1, 3, 2);
+            widthFig = 3;
+            heightFig = 2;
+            xFig = x - 1;
+            yFig = y - 1;
         }
 
         else{
-            DrawRectangle(3, 3, x - 1, y + 1, tilemap);
-            game.AddFigure(player, x - 1, y + 1, 3, 3);
+            widthFig = 3;
+            heightFig = 3;
+            xFig = x - 1;
+            yFig = y + 1;
         }
+
+        DrawRectangle(widthFig, heightFig, xFig, yFig, tilemap);
+        game.BombPointsAdd(player, xFig, yFig, widthFig, heightFig);
+        game.AddFigure(player, xFig, yFig, widthFig, heightFig);
     }
 
     private void MakeFirstTurn(int figureWidth, int figureHeight, ref Player player, ref Tilemap.TilemapObject.TilemapSprite tilemapSprite){

@@ -1488,7 +1488,7 @@ GameObject:
   - component: {fileID: 982028306}
   - component: {fileID: 982028307}
   m_Layer: 5
-  m_Name: MusicOff
+  m_Name: SoundEffects
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1565,7 +1565,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1098257691}
         m_TargetAssemblyTypeName: SceneLoader, Assembly-CSharp
-        m_MethodName: MusicOff
+        m_MethodName: EffectsOff
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1575,7 +1575,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  m_IsOn: 0
+  m_IsOn: 1
 --- !u!1 &1021171050
 GameObject:
   m_ObjectHideFlags: 0
@@ -1772,7 +1772,7 @@ MonoBehaviour:
   settingsPanel: {fileID: 304428238}
   modePanel: {fileID: 1817806749}
   musicOn: {fileID: 1838852472}
-  musicOff: {fileID: 982028307}
+  effectsOn: {fileID: 982028307}
   roundSlider: {fileID: 1489462677}
   roundtxt: {fileID: 2140755186}
   mapSlider: {fileID: 1559384366}
@@ -2005,8 +2005,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -27, y: -5}
-  m_SizeDelta: {x: 300, y: 100}
+  m_AnchoredPosition: {x: -25, y: -5}
+  m_SizeDelta: {x: 330, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1425532111
 MonoBehaviour:
@@ -2041,7 +2041,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: MusicOff
+  m_Text: EffectsOn
 --- !u!222 &1425532112
 CanvasRenderer:
   m_ObjectHideFlags: 0
