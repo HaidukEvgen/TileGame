@@ -387,7 +387,7 @@ public class Testing : MonoBehaviour {
             widthFig = 3;
             heightFig = 2;
             xFig = x - 1;
-            yFig = y - 1;
+            yFig = y;
         }
 
         else{
@@ -397,8 +397,8 @@ public class Testing : MonoBehaviour {
             yFig = y + 1;
         }
 
-        DrawRectangle(widthFig, heightFig, xFig, yFig, tilemap);
         game.BombPointsAdd(player, xFig, yFig, widthFig, heightFig);
+        DrawRectangle(widthFig, heightFig, xFig, yFig, tilemap);
         game.AddFigure(player, xFig, yFig, widthFig, heightFig);
     }
 
