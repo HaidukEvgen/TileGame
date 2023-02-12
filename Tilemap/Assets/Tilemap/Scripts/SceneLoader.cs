@@ -66,6 +66,9 @@ public class SceneLoader : MonoBehaviour
         if(SoundManager.isOn != true){
             musicOn.isOn = false; 
         }
+        if(SoundManager.isSoundEffectsOn != true){
+            effectsOn.isOn = false; 
+        }
     }
 
     public void CloseSettings(){
