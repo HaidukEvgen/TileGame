@@ -303,7 +303,7 @@ public class Game {
         GetBoardXY(ref x, ref y);
         for(int i = x; i < x + height; i++){
             for(int j = y; j < y + width; j++){
-                if(gameBoard[i, j] == TileState.none){
+                if(gameBoard[i, j] != player.GetTileState()){
                     count++;
                 }
             }
