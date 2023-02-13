@@ -85,7 +85,7 @@ public class UIController : MonoBehaviour
     }
 
     public void playRotateSound(){
-        if(SoundManager.isOn && SoundManager.isSoundEffectsOn){
+        if(SoundManager.isSoundEffectsOn){
             rotateButton.GetComponent<AudioSource>().Play();
         }
     }
@@ -112,7 +112,7 @@ public class UIController : MonoBehaviour
         infPanel.SetActive(false);
         curFig.SetActive(false);
 
-        if(SoundManager.isOn){
+        if(SoundManager.isSoundEffectsOn){
             endGamePanel.GetComponent<AudioSource>().Play();
         }
     }
@@ -136,7 +136,7 @@ public class UIController : MonoBehaviour
 
         curFig.SetActive(false);
         endRoundPanel.SetActive(true);
-        if(SoundManager.isOn && SoundManager.isSoundEffectsOn){
+        if(SoundManager.isSoundEffectsOn){
             endSound.Play();
         }
 
@@ -191,13 +191,13 @@ public class UIController : MonoBehaviour
             gm.GetCurPlayer().ReduceBonusAmount(Game.Bonuses.resizer);
             resizetxt.text = "Resizer (X" + gm.GetCurPlayer().GetBonusAmount(Game.Bonuses.resizer).ToString() + ")";
             useResize = true;
-            if(SoundManager.isOn && SoundManager.isSoundEffectsOn){
+            if(SoundManager.isSoundEffectsOn){
                 changeFigSound.Play();
             }
             CloseBonusesPanel();
         }
         else{
-            if(SoundManager.isOn && SoundManager.isSoundEffectsOn){
+            if(SoundManager.isSoundEffectsOn){
                 wrongSound.Play();
             }
         }
@@ -212,7 +212,7 @@ public class UIController : MonoBehaviour
             CloseBonusesPanel();
         }
         else{
-            if(SoundManager.isOn && SoundManager.isSoundEffectsOn){
+            if(SoundManager.isSoundEffectsOn){
                 wrongSound.Play();
             }
         }

@@ -280,7 +280,7 @@ public class Game {
             player.IncreaseBonusAmount(Game.Bonuses.resizer);
         }
 
-        if(SoundManager.isOn && SoundManager.isSoundEffectsOn)
+        if(SoundManager.isSoundEffectsOn)
             collectBonusSound.Play();
     }
 

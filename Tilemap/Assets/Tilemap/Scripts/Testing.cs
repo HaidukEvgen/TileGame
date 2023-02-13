@@ -278,7 +278,7 @@ public class Testing : MonoBehaviour {
                 if(game.skipNum == 2){
                     game.MakeNewRound(tilemap);
                 }
-                if(SoundManager.isOn && SoundManager.isSoundEffectsOn){
+                if(SoundManager.isSoundEffectsOn){
                     wrongSound.Play();
                 }
                 Draggable.throwBack = true;
@@ -298,7 +298,7 @@ public class Testing : MonoBehaviour {
         //if figure is placed incorrectly? throw it back
         if(!game.CheckFigure(player, x, y, figureWidth, figureHeight)){
             Draggable.throwBack = true;
-            if(SoundManager.isOn && !isFirst && SoundManager.isSoundEffectsOn){
+            if(!isFirst && SoundManager.isSoundEffectsOn){
                 wrongSound.Play();
             }
             return;
@@ -326,7 +326,7 @@ public class Testing : MonoBehaviour {
     }
 
     private void blowBomb(int x, int y, Player player){
-        if(SoundManager.isOn && SoundManager.isSoundEffectsOn){
+        if(SoundManager.isSoundEffectsOn){
             blowBombSound.Play();
         }
         

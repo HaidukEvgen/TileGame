@@ -47,7 +47,7 @@ public class Tilemap {
     }
 
     public void SetRowBlank(int i, TilemapObject.TilemapSprite tilemapSprite){
-        if(SoundManager.isOn && SoundManager.isSoundEffectsOn){
+        if(SoundManager.isSoundEffectsOn){
             TilemapVisual.PlayDeleteSound();
         } 
         for(int j = 0; j < grid.GetWidth(); j++){
@@ -58,7 +58,7 @@ public class Tilemap {
     }
 
     public void SetColmnBlank(int i, TilemapObject.TilemapSprite tilemapSprite){
-        if(SoundManager.isOn && SoundManager.isSoundEffectsOn){
+        if(SoundManager.isSoundEffectsOn){
             TilemapVisual.PlayDeleteSound();
         }
         for(int j = 0; j < grid.GetHeight(); j++){
