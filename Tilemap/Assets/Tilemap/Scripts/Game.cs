@@ -171,6 +171,10 @@ public class Game {
             return Tilemap.TilemapObject.TilemapSprite.Painter;
         if(tileState == TileState.resizer)    
             return Tilemap.TilemapObject.TilemapSprite.Resizer;
+        if(tileState == TileState.firstPlayer)
+            return Tilemap.TilemapObject.TilemapSprite.Blue;
+        if(tileState == TileState.secondPlayer)
+            return Tilemap.TilemapObject.TilemapSprite.Red;
         return Tilemap.TilemapObject.TilemapSprite.None;
     } 
 
