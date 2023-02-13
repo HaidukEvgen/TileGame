@@ -20,6 +20,12 @@ public class Player{
         this.bonuses[Game.Bonuses.resizer] = 0;
     }
 
+    public void ResetBonuses(){
+        this.bonuses[Game.Bonuses.bomb] = 0;
+        this.bonuses[Game.Bonuses.painter] = 0;
+        this.bonuses[Game.Bonuses.resizer] = 0;
+    }
+
     public void SetFirstMove(){
         this.firstTurn = true;
     }

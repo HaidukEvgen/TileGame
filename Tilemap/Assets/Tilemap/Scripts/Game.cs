@@ -365,6 +365,9 @@ public class Game {
             this.round = 1;
             this.player1.ResetWinRounds();
             this.player2.ResetWinRounds();
+            this.player1.ResetBonuses();
+            this.player2.ResetBonuses();
+
         }
         else{
             this.round++;
