@@ -378,11 +378,14 @@ public class Game {
     }
 
     public void CleanRow(int i){
+        int points = 0; 
+        
         tilemap.SetRowBlank(boardHeight - 1 - i, Tilemap.TilemapObject.TilemapSprite.None);
 
-        for(int j = 0; j < boardWidth; j++)
+        for(int j = 0; j < boardWidth; j++){
             if(gameBoard[i, j] != TileState.obstacle){
                 gameBoard[i, j] = TileState.none;
+                points++;
             }
             else{
                 int x = i;
@@ -390,14 +393,19 @@ public class Game {
                 GetMapXY(ref x, ref y);
                 tilemap.SetTilemapSprite(x, y, Tilemap.TilemapObject.TilemapSprite.Obstacle);
             }
+        }
+        GetCurPlayer().AddPoints(points);
     }
 
     public void CleanColmn(int i){
+        int points = 0;
+
         tilemap.SetColmnBlank(i, Tilemap.TilemapObject.TilemapSprite.None);
 
-        for(int j = 0; j < boardHeight; j++)
+        for(int j = 0; j < boardHeight; j++){
             if(gameBoard[j, i] != TileState.obstacle){
                 gameBoard[j, i] = TileState.none;
+                points++;
             }
             else{
                 int x = j;
@@ -405,6 +413,8 @@ public class Game {
                 GetMapXY(ref x, ref y);
                 tilemap.SetTilemapSprite(x, y, Tilemap.TilemapObject.TilemapSprite.Obstacle);
             }
+        }
+        GetCurPlayer().AddPoints(points);
     }
 
     public void TetrisCheck(){
@@ -424,7 +434,6 @@ public class Game {
                 if(gameBoard[j, i] == curColor || gameBoard[j, i] == TileState.obstacle){
                     if(j == boardHeight - 1){
                         CleanColmn(i);
-                        GetCurPlayer().AddPoints(boardHeight);
                     }
                 }
                 else{
@@ -442,7 +451,6 @@ public class Game {
                     TetrisColmnCheck(j);
                     if(j == boardWidth - 1){
                         CleanRow(i);
-                        GetCurPlayer().AddPoints(boardWidth);
                     }
                 }
                 else{
