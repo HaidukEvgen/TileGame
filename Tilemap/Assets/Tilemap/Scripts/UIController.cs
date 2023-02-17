@@ -82,6 +82,7 @@ public class UIController : MonoBehaviour
         curFig.SetActive(true);
         pausePanel.SetActive(false);
         Time.timeScale = 1; 
+        CloseBonusesPanel();
     }
 
     public void playRotateSound(){
@@ -157,12 +158,6 @@ public class UIController : MonoBehaviour
         rotateButton.GetComponent<Button>().interactable = true;
     }
 
-    public void MusicOff(){
-        musicOn.SetActive(false);
-        musicOff.SetActive(true);
-        SoundManager.stopPlay = true;
-    }
-
     public void OpenBonusPanel(){
         bombtxt.text = "Bomb (X" + gm.GetCurPlayer().GetBonusAmount(Game.Bonuses.bomb).ToString() + ")";
         rollertxt.text = "Roller (X" + gm.GetCurPlayer().GetBonusAmount(Game.Bonuses.painter).ToString() + ")";
@@ -184,6 +179,16 @@ public class UIController : MonoBehaviour
         musicOn.SetActive(true);
         musicOff.SetActive(false);
         SoundManager.startPlay = true;
+        SoundManager.isOn = true;
+        SoundManager.isSoundEffectsOn = true;
+    }
+
+    public void MusicOff(){
+        musicOn.SetActive(false);
+        musicOff.SetActive(true);
+        SoundManager.stopPlay = true;
+        SoundManager.isOn = false;
+        SoundManager.isSoundEffectsOn = false;
     }
 
     public void changeFig(){
