@@ -71,7 +71,7 @@ public class UIController : MonoBehaviour
         pausePanel.SetActive(true);
         Time.timeScale = 0; 
         if(SoundManager.isOn == false){
-            MusicOff();
+            MusicOff(true);
         }
     }
 
@@ -183,12 +183,14 @@ public class UIController : MonoBehaviour
         SoundManager.isSoundEffectsOn = true;
     }
 
-    public void MusicOff(){
+    public void MusicOff(bool effectsOn){
         musicOn.SetActive(false);
         musicOff.SetActive(true);
         SoundManager.stopPlay = true;
         SoundManager.isOn = false;
-        SoundManager.isSoundEffectsOn = false;
+        if(!effectsOn){
+            SoundManager.isSoundEffectsOn = false;
+        }
     }
 
     public void changeFig(){

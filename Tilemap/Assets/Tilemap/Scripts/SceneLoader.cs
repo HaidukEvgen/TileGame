@@ -12,6 +12,7 @@ public class SceneLoader : MonoBehaviour
     
     public Toggle musicOn;
     public Toggle effectsOn;
+    public Toggle tutorialOn;
 
     public Slider roundSlider;
     public Text roundtxt;
@@ -69,6 +70,9 @@ public class SceneLoader : MonoBehaviour
         if(SoundManager.isSoundEffectsOn != true){
             effectsOn.isOn = false; 
         }
+        if(PlayerPrefs.GetInt("Tutorial", 0) == 1){
+            tutorialOn.isOn = true;
+        }
     }
 
     public void CloseSettings(){
@@ -96,6 +100,15 @@ public class SceneLoader : MonoBehaviour
         }
         else{
             SoundManager.stopPlay = true;
+        }
+    }
+
+    public void ChangeTutorialMode(){
+        if(tutorialOn.isOn){
+            PlayerPrefs.SetInt("Tutorial", 1);
+        }
+        else{
+            PlayerPrefs.SetInt("Tutorial", 0);
         }
     }
 }

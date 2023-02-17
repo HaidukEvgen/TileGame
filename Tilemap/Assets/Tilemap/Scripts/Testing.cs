@@ -316,7 +316,9 @@ public class Testing : MonoBehaviour {
         if(game.isBomb){
             blowBomb(x, y, player);
             game.ResetBomb();
-        }  
+        }
+
+        game.TetrisCheck();  
 
         //change players
         game.ChangeTurn(ref tilemapSprite);

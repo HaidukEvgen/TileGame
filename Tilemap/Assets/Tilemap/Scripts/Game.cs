@@ -298,8 +298,6 @@ public class Game {
                 }
                 gameBoard[i, j] = player.GetTileState();
             }
-
-        TetrisCheck();
     }
 
     public void BombPointsAdd(Player player, int x, int y, int width, int height){
