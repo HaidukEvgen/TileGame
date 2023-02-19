@@ -1854,7 +1854,7 @@ MonoBehaviour:
   modePanel: {fileID: 1817806749}
   musicOn: {fileID: 1838852472}
   effectsOn: {fileID: 982028307}
-  tutorialOn: {fileID: 0}
+  tutorialOn: {fileID: 1453421272}
   roundSlider: {fileID: 1489462677}
   roundtxt: {fileID: 2140755186}
   mapSlider: {fileID: 1559384366}

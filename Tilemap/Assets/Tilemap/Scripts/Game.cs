@@ -94,7 +94,7 @@ public class Game {
     }
 
     public bool IsFirstPlayerTurn(){
-            return this.curTurn == Turns.firstPlTurn;
+        return this.curTurn == Turns.firstPlTurn;
     }
 
     public bool IsSingleMode(){

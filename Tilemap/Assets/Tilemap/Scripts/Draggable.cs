@@ -37,6 +37,7 @@ public class Draggable : MonoBehaviour
 
     private void OnMouseDrag(){
         transform.position = GetMouseWorldPosition() + mousePositionOffset;
+        UITutorial.closePanel = true;
     }
 
     private void OnMouseUp(){
@@ -48,6 +49,8 @@ public class Draggable : MonoBehaviour
         float x = 10.5f - width/2;
         float y = 0f - height/2;
         transform.position = new Vector3(x, y, 0);
+        if(!UITutorial.gm.GetCurPlayer().IsUpperPlayer() || !UITutorial.singleMode)
+            UITutorial.openPanel = true;
     }
 
     //change figure's collider according to its size

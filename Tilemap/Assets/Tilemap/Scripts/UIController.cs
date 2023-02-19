@@ -29,6 +29,7 @@ public class UIController : MonoBehaviour
     public GameObject pauseButton;
     public GameObject rotateButton;
     public GameObject endGamePanel;
+    public GameObject tutorialUI;
 
     public AudioSource endSound;
     public AudioSource changeFigSound;
@@ -41,12 +42,14 @@ public class UIController : MonoBehaviour
     private bool notOpenRoundPanel = true;
     public static bool useResize = false;
     public static bool useBomb = false;
+    public static bool IsendGamePanel = false;
 
     private int maxRound;
 
     public int minBonusCount = -10;
 
     void Start(){
+        Application.targetFrameRate = 60;
         maxRound = PlayerPrefs.GetInt("Rounds", 3);
         PauseGame();
         CountinueGame();
@@ -61,6 +64,7 @@ public class UIController : MonoBehaviour
         if(!gm.inGame && notOpenRoundPanel){
             roundEnd(gm.round);
             notOpenRoundPanel = false;
+            UITutorial.closePanel = true;
         }
     }
 
@@ -73,6 +77,7 @@ public class UIController : MonoBehaviour
         if(SoundManager.isOn == false){
             MusicOff(true);
         }
+        tutorialUI.SetActive(false);
     }
 
     public void CountinueGame(){
@@ -83,6 +88,7 @@ public class UIController : MonoBehaviour
         pausePanel.SetActive(false);
         Time.timeScale = 1; 
         CloseBonusesPanel();
+        tutorialUI.SetActive(true);
     }
 
     public void playRotateSound(){
@@ -96,6 +102,7 @@ public class UIController : MonoBehaviour
     }
 
     public void openEndGamePanel(){
+        IsendGamePanel = true;
         finalScoretxt.text = "Rounds score: " + gm.GetPlayer1().GetWinRounds().ToString() + " : " + gm.GetPlayer2().GetWinRounds().ToString();
 
         if(gm.GetPlayer1().GetWinRounds() > gm.GetPlayer2().GetWinRounds()){
@@ -119,6 +126,8 @@ public class UIController : MonoBehaviour
     }
 
     public void roundEnd(int round){
+        UITutorial.closePanel = true;
+        IsendGamePanel = true;
         roundsScoretxt.text = "Rounds score: " + gm.GetPlayer1().GetWinRounds().ToString() + " : " + gm.GetPlayer2().GetWinRounds().ToString();
 
         if (round == maxRound){
@@ -147,6 +156,7 @@ public class UIController : MonoBehaviour
     }
 
     public void CountinueGameRound(){
+        IsendGamePanel = false;
         endRoundPanel.SetActive(false);
         curFig.SetActive(true);
         gm.inGame = true;

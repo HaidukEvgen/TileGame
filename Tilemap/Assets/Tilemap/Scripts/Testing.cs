@@ -41,13 +41,15 @@ public class Testing : MonoBehaviour {
     public readonly float[] CELL_SIZE_ARRAY = {1.15f , 1f};
     public float CELL_SIZE;
 
+    private bool singleMode;
+
     private void Start() {
         Input.multiTouchEnabled = false; 
 
         int numSize = PlayerPrefs.GetInt("Map", 1);
 
         //gameMode 1 or 2 players
-        bool singleMode = PlayerPrefs.GetInt("GameMode", 1) == 1? true: false;
+        singleMode = PlayerPrefs.GetInt("GameMode", 1) == 1? true: false;
 
         GAME_HEIGHT = GAME_HEIGHT_ARRAY[numSize];
         GAME_WIDTH = GAME_WIDTH_ARRAY[numSize];
@@ -63,6 +65,7 @@ public class Testing : MonoBehaviour {
         //create gameboard matrix 
         game = new Game(GAME_WIDTH, GAME_HEIGHT, tilemap, singleMode);
         UIController.gm = game;
+        UITutorial.gm = game;
 
         //create tilemap for current figure
         curFigure = new Tilemap(FIGURE_SIZE, FIGURE_SIZE, CELL_SIZE, new Vector3(0, 0));
@@ -75,6 +78,7 @@ public class Testing : MonoBehaviour {
         wrongSound = gameObject.GetComponent<AudioSource>();
         game.SetCollectSound(collectBonusSound);
     }
+
     private void Update() {
         if(!game.IsSingleMode()){
             //if tile was left correctly then put it on the board
@@ -136,6 +140,15 @@ public class Testing : MonoBehaviour {
         curFigure.SetTilemapVisual(curFigureVisual);
 
         Draggable.ChangeCollider(x, y);
+        
+        if(!game.CanBePlaced(game.GetCurWidth(), game.GetCurHeight()) && !game.CanBePlaced(game.GetCurHeight(), game.GetCurWidth())){
+            if(!singleMode){
+                UITutorial.useBonuses = true;
+            }
+            else if(!game.IsFirstPlayerTurn()){
+                UITutorial.useBonuses = true;
+            }
+        }   
     }
 
     public void setBomb(){
@@ -219,7 +232,6 @@ public class Testing : MonoBehaviour {
         int figureHeight = game.GetCurHeight();
 
         Stack<PCTurns> turns = new Stack<PCTurns>();
-
         PCTurns bonusTurn1 = new PCTurns(-1, -1, -1, -1);
         PCTurns bonusTurn2 = new PCTurns(-1, -1, -1, -1);
 
@@ -274,14 +286,18 @@ public class Testing : MonoBehaviour {
             if(!game.CanBePlaced(figureWidth, figureHeight) && !game.CanBePlaced(figureHeight, figureWidth)){
                 game.ChangeTurn(ref tilemapSprite);
                 CreateNextFigure(game.GetNum(1, 7), game.GetNum(1, 7));
+                UITutorial.changeColorPanel = true;
                 game.skipNum++;
                 if(game.skipNum == 2){
                     game.MakeNewRound(tilemap);
+                    UITutorial.closePanel = true;
                 }
                 if(SoundManager.isSoundEffectsOn){
                     wrongSound.Play();
                 }
                 Draggable.throwBack = true;
+                if(singleMode)
+                    UITutorial.closePanel = true;
                 return;   
             }   
         }
@@ -325,6 +341,7 @@ public class Testing : MonoBehaviour {
         Draggable.throwBack = true;
         //and create next
         CreateNextFigure(game.GetNum(1, 7), game.GetNum(1, 7));
+        UITutorial.changeColorPanel = true;
     }
 
     private void blowBomb(int x, int y, Player player){
@@ -419,6 +436,10 @@ public class Testing : MonoBehaviour {
         game.AddFigure(player, x, y, figureWidth, figureHeight);
         Draggable.throwBack = true;
         CreateNextFigure(game.GetNum(1, 7), game.GetNum(1, 7));
+        if(singleMode){
+            UITutorial.closePanel = true;
+        }
+        UITutorial.changeColorPanel = true;
     }
 
     private void MakeFirstTurnPC(int figureWidth, int figureHeight, ref Player player, ref Tilemap.TilemapObject.TilemapSprite tilemapSprite){
@@ -428,6 +449,9 @@ public class Testing : MonoBehaviour {
         game.ChangeTurn(ref tilemapSprite);
         game.AddFigure(player, x, y, figureWidth, figureHeight);
         Draggable.throwBack = true;
+        if(singleMode){
+            UITutorial.openPanel = true;
+        }
         CreateNextFigure(game.GetNum(1, 7), game.GetNum(1, 7));
     }
 
