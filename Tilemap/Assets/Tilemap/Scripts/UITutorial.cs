@@ -18,12 +18,15 @@ public class UITutorial : MonoBehaviour{
     public Image tutorialPanel;
     public GameObject tutorialObject;
     public GameObject arrow;
+    public GameObject click;
 
     public GameObject startPanel;
     public GameObject bonusPanel;
 
     private Color32 red_player_1;
     private Color32 blue_player_2;
+
+    private bool canClick = false;
 
     private int MAX_NUM_CALL = 6;
 
@@ -90,6 +93,9 @@ public class UITutorial : MonoBehaviour{
         if(numInvoke < MAX_NUM_CALL){
             tutorialObject.SetActive(true);
             bonusPanel.SetActive(false);
+            if(canClick){
+                click.SetActive(true);
+            }
         }
         else if(canOpen){
             tutorialObject.SetActive(true);
@@ -99,10 +105,13 @@ public class UITutorial : MonoBehaviour{
 
     private void closeTutorial(){
         tutorialObject.SetActive(false);
+        click.SetActive(false);
     }
 
     private void UpdateText(){
         tutorialText.text = "Put the figure near yours territory";
+        click.SetActive(true);
+        canClick = true;
     }
 
     private void UpdateTextBonus(){

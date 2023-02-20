@@ -176,6 +176,7 @@ public class UIController : MonoBehaviour
         openBonusesButton.SetActive(false);
         curFig.SetActive(false);
         bonusesPanel.SetActive(true);
+        UITutorial.closePanel = true;
     }
 
     public void CloseBonusesPanel(){
