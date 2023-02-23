@@ -15,15 +15,13 @@ public class Player{
         this.tileState = tileState;
         this.firstTurn = true;
         this.bonuses = new Dictionary<Game.Bonuses, int>();
-        this.bonuses[Game.Bonuses.bomb] = 0;
-        this.bonuses[Game.Bonuses.painter] = 0;
-        this.bonuses[Game.Bonuses.resizer] = 0;
+        this.ResetBonuses();
     }
 
     public void ResetBonuses(){
-        this.bonuses[Game.Bonuses.bomb] = 0;
-        this.bonuses[Game.Bonuses.painter] = 0;
-        this.bonuses[Game.Bonuses.resizer] = 0;
+        this.bonuses[Game.Bonuses.bomb] = 1;
+        this.bonuses[Game.Bonuses.painter] = 1;
+        this.bonuses[Game.Bonuses.resizer] = 3;
     }
 
     public void SetFirstMove(){

@@ -46,7 +46,7 @@ public class UIController : MonoBehaviour
 
     private int maxRound;
 
-    public int minBonusCount = -10;
+    public int minBonusCount = 0;
 
     void Start(){
         Application.targetFrameRate = 60;

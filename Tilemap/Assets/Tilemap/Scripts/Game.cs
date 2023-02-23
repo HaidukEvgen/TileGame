@@ -16,6 +16,11 @@ public class Game {
     public int skipNum;
     public int gameScore;
     public bool isBomb;
+    private int bonusesX;
+    private int bonusesY;
+    private int moveBonusCount;
+    private bool withBonus;
+    private bool canDeleteBonus;
     public enum Turns{firstPlTurn, secondPlTurn};
     public enum TileState{
         none,
@@ -49,6 +54,9 @@ public class Game {
         this.gameScore = 0;
         this.tilemap = tilemap;
         this.isBomb = false;
+        this.withBonus = true;
+        this.moveBonusCount = 0;
+        this.canDeleteBonus = true;
         gameBoard = new TileState[boardHeight, boardWidth];
         for(int i = 0; i < boardHeight; i++)
             for(int j = 0; j < boardWidth; j++)
@@ -128,6 +136,7 @@ public class Game {
     }
 
     private void SpawnBonus(Tilemap tilemap){
+        canDeleteBonus = true;
         int a = GetNum(0, 4); 
         Bonuses curBonus;  
         if(a == 1)
@@ -143,9 +152,19 @@ public class Game {
             if(gameBoard[i, j] == TileState.none)
                 break;
         }
+
+        bonusesX = i;
+        bonusesY = j;
+
         gameBoard[i, j] = GetBonusTileState(curBonus);
         GetMapXY(ref i, ref j);
         tilemap.SetTilemapSprite(i, j, GetBonusSprite(curBonus));
+    }
+
+    private void DeleteBonus(Tilemap tilemap){
+        gameBoard[bonusesX, bonusesY] = TileState.none;
+        GetMapXY(ref bonusesX, ref bonusesY);
+        tilemap.SetTilemapSprite(bonusesX, bonusesY, Tilemap.TilemapObject.TilemapSprite.None);
     }
 
     public TileState GetBonusTileState(Bonuses bonus){
@@ -179,6 +198,9 @@ public class Game {
     } 
 
     public Tilemap.TilemapObject.TilemapSprite GetSpriteInCaseOfBonus(int x, int y){
+        if(x < 0 || y < 0){
+            return Tilemap.TilemapObject.TilemapSprite.None;
+        }
         GetBoardXY(ref x, ref y);
         return this.GetBonusSprite(gameBoard[x, y]);
     }
@@ -286,6 +308,8 @@ public class Game {
 
         if(SoundManager.isSoundEffectsOn)
             collectBonusSound.Play();
+
+        canDeleteBonus = false;
     }
 
     //mark the figure location in matrix
@@ -326,6 +350,22 @@ public class Game {
         int temp = y;
         y = boardHeight - x - 1;
         x = temp; 
+    }
+
+    public void BonusUpdate(Tilemap tilemap){
+        moveBonusCount++;
+        if(moveBonusCount == 6){
+            moveBonusCount = 0;
+            if(withBonus){
+                if(canDeleteBonus)
+                    DeleteBonus(tilemap);
+                withBonus = false;
+            }
+            else{
+                SpawnBonus(tilemap);
+                withBonus = true;
+            }
+        }
     }
 
     //change current player's turn and his tile texture
@@ -372,6 +412,8 @@ public class Game {
         }
         SpawnObstacles(tilemap);
         SpawnBonus(tilemap);
+        moveBonusCount = 0;
+        withBonus = true;
     }
 
     public Player GetPlayer1(){

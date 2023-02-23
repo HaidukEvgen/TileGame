@@ -34,7 +34,7 @@ public class Testing : MonoBehaviour {
     public int GAME_HEIGHT; 
 
     public readonly int[] GAME_WIDTH_ARRAY = {17 , 20};
-    public int GAME_WIDTH;   // 20
+    public int GAME_WIDTH;   
 
     public const int FIGURE_SIZE = 6;
 
@@ -238,6 +238,7 @@ public class Testing : MonoBehaviour {
         if(!game.GetCurPlayer().IsFirstTurn()){
             if(!game.CanBePlaced(figureWidth, figureHeight, ref turns, ref bonusTurn1) && !game.CanBePlaced(figureHeight, figureWidth, ref turns, ref bonusTurn2)){
                 game.ChangeTurn(ref tilemapSprite);
+                game.BonusUpdate(tilemap);
                 CreateNextFigure(game.GetNum(1, 7), game.GetNum(1, 7));
                 game.skipNum++;
                 if(game.skipNum == 2){
@@ -270,8 +271,10 @@ public class Testing : MonoBehaviour {
         player.AddPoints(turn.width * turn.height);
         //add this figure to the matrix
         game.AddFigure(player, turn.x, turn.y, turn.width, turn.height);
+        game.TetrisCheck(); 
         //change players
         game.ChangeTurn(ref tilemapSprite);
+        game.BonusUpdate(tilemap);
         Draggable.throwBack = true;
         //and create next
         CreateNextFigure(game.GetNum(1, 7), game.GetNum(1, 7));
@@ -285,6 +288,7 @@ public class Testing : MonoBehaviour {
         if(!game.GetCurPlayer().IsFirstTurn()){
             if(!game.CanBePlaced(figureWidth, figureHeight) && !game.CanBePlaced(figureHeight, figureWidth)){
                 game.ChangeTurn(ref tilemapSprite);
+                game.BonusUpdate(tilemap);
                 CreateNextFigure(game.GetNum(1, 7), game.GetNum(1, 7));
                 UITutorial.changeColorPanel = true;
                 game.skipNum++;
@@ -338,6 +342,7 @@ public class Testing : MonoBehaviour {
 
         //change players
         game.ChangeTurn(ref tilemapSprite);
+        game.BonusUpdate(tilemap);
         Draggable.throwBack = true;
         //and create next
         CreateNextFigure(game.GetNum(1, 7), game.GetNum(1, 7));
@@ -433,6 +438,7 @@ public class Testing : MonoBehaviour {
         DrawRectangle(figureWidth, figureHeight, x, y, tilemapSprite);
         player.AddPoints(figureWidth * figureHeight);
         game.ChangeTurn(ref tilemapSprite);
+        game.BonusUpdate(tilemap);
         game.AddFigure(player, x, y, figureWidth, figureHeight);
         Draggable.throwBack = true;
         CreateNextFigure(game.GetNum(1, 7), game.GetNum(1, 7));
@@ -447,6 +453,7 @@ public class Testing : MonoBehaviour {
         DrawRectangle(figureWidth, figureHeight, x, y, tilemapSprite);
         player.AddPoints(figureWidth * figureHeight);
         game.ChangeTurn(ref tilemapSprite);
+        game.BonusUpdate(tilemap);
         game.AddFigure(player, x, y, figureWidth, figureHeight);
         Draggable.throwBack = true;
         if(singleMode){
