@@ -16,8 +16,10 @@ public class Game {
     public int skipNum;
     public int gameScore;
     public bool isBomb;
+    private bool isRoller;
     private int bonusesX;
     private int bonusesY;
+    private int rollerDraw;
     private int moveBonusCount;
     private bool withBonus;
     private bool canDeleteBonus;
@@ -63,10 +65,36 @@ public class Game {
                 gameBoard[i, j] = TileState.none;
         SpawnObstacles(tilemap);
         SpawnBonus(tilemap);
+        ResetRoller();
     }
 
     public void SetCollectSound(AudioSource aud){
         this.collectBonusSound = aud;
+    }
+
+    public bool IsRoller(){
+        return this.isRoller;
+    }
+
+    public void SetRoller(){
+        this.isRoller = true;
+        this.rollerDraw = 0;
+    }
+
+    public void addRollerCell(){
+        this.rollerDraw++;
+    }
+
+    public bool isRollerAll(){
+        if(this.rollerDraw == 8){
+            return true;
+        } 
+        return false;
+    }
+
+    public void ResetRoller(){
+        this.isRoller = false;
+        this.rollerDraw = 0;
     }
 
     public void SetBomb(){
@@ -197,12 +225,21 @@ public class Game {
         return Tilemap.TilemapObject.TilemapSprite.None;
     } 
 
+
     public Tilemap.TilemapObject.TilemapSprite GetSpriteInCaseOfBonus(int x, int y){
         if(x < 0 || y < 0){
             return Tilemap.TilemapObject.TilemapSprite.None;
         }
         GetBoardXY(ref x, ref y);
         return this.GetBonusSprite(gameBoard[x, y]);
+    }
+
+    public bool isSameSprites(int x, int y, TileState tilestate){
+        GetBoardXY(ref x, ref y);
+        if(gameBoard[x, y] == tilestate){
+            return true;
+        }
+        return false;
     }
 
     private void SetObstacle(int x, int y, Tilemap tilemap, Tilemap.TilemapObject.TilemapSprite tilemapSprite){
@@ -314,6 +351,9 @@ public class Game {
 
     //mark the figure location in matrix
     public void AddFigure(Player player, int x, int y, int width, int height){
+        if(x < 0 || y < 0 || x > boardWidth || y > boardHeight){
+            return;
+        }
         GetBoardXY(ref x, ref y);
         for(int i = x; i < x + height; i++)
             for(int j = y; j < y + width; j++){

@@ -42,6 +42,7 @@ public class UIController : MonoBehaviour
     private bool notOpenRoundPanel = true;
     public static bool useResize = false;
     public static bool useBomb = false;
+    public static bool useRoller = false;
     public static bool IsendGamePanel = false;
 
     private int maxRound;
@@ -226,6 +227,21 @@ public class UIController : MonoBehaviour
             gm.GetCurPlayer().ReduceBonusAmount(Game.Bonuses.bomb);
             bombtxt.text = "Bomb (X" + gm.GetCurPlayer().GetBonusAmount(Game.Bonuses.bomb).ToString() + ")";
             useBomb = true;
+            playRotateSound();
+            CloseBonusesPanel();
+        }
+        else{
+            if(SoundManager.isSoundEffectsOn){
+                wrongSound.Play();
+            }
+        }
+    }
+
+    public void selectRoller(){
+        if(gm.GetCurPlayer().GetBonusAmount(Game.Bonuses.painter) > minBonusCount){
+            gm.GetCurPlayer().ReduceBonusAmount(Game.Bonuses.painter);
+            rollertxt.text = "Roller (X" + gm.GetCurPlayer().GetBonusAmount(Game.Bonuses.painter).ToString() + ")";
+            useRoller = true;
             playRotateSound();
             CloseBonusesPanel();
         }

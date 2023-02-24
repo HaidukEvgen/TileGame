@@ -42,6 +42,7 @@ public class Testing : MonoBehaviour {
     public float CELL_SIZE;
 
     private bool singleMode;
+    public static bool closeRoller = false;
 
     private void Start() {
         Input.multiTouchEnabled = false; 
@@ -111,6 +112,17 @@ public class Testing : MonoBehaviour {
             UIController.useBomb = false;
             setBomb();
         }
+
+        if(UIController.useRoller){
+            UIController.useRoller = false;
+            setRoller();
+        }
+
+        if(closeRoller){
+            closeRoller = false;
+            if(game.IsRoller())
+                resetRoller(game.IsFirstPlayerTurn()? Tilemap.TilemapObject.TilemapSprite.Blue: Tilemap.TilemapObject.TilemapSprite.Red);
+        } 
         /*
         if (Input.GetKeyDown(KeyCode.P)) {
             tilemap.Save();
@@ -150,6 +162,33 @@ public class Testing : MonoBehaviour {
             }
         }   
     }
+
+    public void setRoller(){
+        Draggable.throwBack = true;
+        game.SetCurWidth(1);
+        game.SetCurHeight(1);
+        Draggable.width = 1;
+        Draggable.height = 1;
+
+        tilemapSprite = Tilemap.TilemapObject.TilemapSprite.Painter;
+        
+        curFigure.DrawFigure(1, 1, tilemapSprite);
+        curFigure.SetTilemapVisual(curFigureVisual);
+
+        Draggable.ChangeCollider(1, 1);
+
+        game.SetRoller();
+    }
+
+    private void resetRoller(Tilemap.TilemapObject.TilemapSprite tilemapSprite){
+        game.ResetRoller();
+        game.ChangeTurn(ref tilemapSprite);
+        game.BonusUpdate(tilemap);
+        Draggable.throwBack = true;
+        CreateNextFigure(game.GetNum(1, 7), game.GetNum(1, 7));
+        UITutorial.changeColorPanel = true;
+    }
+
 
     public void setBomb(){
         Draggable.throwBack = true;
@@ -194,18 +233,58 @@ public class Testing : MonoBehaviour {
             }
 
         if(game.CheckFigure(player, x, y, figureWidth, figureHeight)){
-            DrawRectangle(figureWidth, figureHeight, x, y, Tilemap.TilemapObject.TilemapSprite.Shadow);
-            lastShadowX = curTurnX = x;
-            lastShadowY = curTurnY = y;
-            isShadowDrawn = true;
-        } else {
+            if(game.IsRoller()){
+                Tilemap.TilemapObject.TilemapSprite tilemapSprite = game.IsFirstPlayerTurn()? Tilemap.TilemapObject.TilemapSprite.Blue: Tilemap.TilemapObject.TilemapSprite.Red;
+                DrawRectangle(figureWidth, figureHeight, x, y, tilemapSprite);
+                if(!game.isSameSprites(x, y, player.GetTileState())){
+                    game.addRollerCell();
+                    player.AddPoints(1);  
+                    game.AddFigure(player, x, y, figureWidth, figureHeight); 
+                    game.TetrisCheck();
+                }
+                lastShadowX = curTurnX = x;
+                lastShadowY = curTurnY = y;
+                isShadowDrawn = false;
+
+                if(game.isRollerAll()){
+                    resetRoller(tilemapSprite);
+                }
+
+            }
+            else{
+                DrawRectangle(figureWidth, figureHeight, x, y, Tilemap.TilemapObject.TilemapSprite.Shadow);
+                lastShadowX = curTurnX = x;
+                lastShadowY = curTurnY = y;
+                isShadowDrawn = true;
+            }
+        } 
+        else{
             if(((lastShadowX - x == 1 || lastShadowX - x == -1) && y == lastShadowY) ||
                ((lastShadowY - y == 1 || lastShadowY - y == -1) && x == lastShadowX)){
-                DrawRectangle(figureWidth, figureHeight, lastShadowX, lastShadowY, Tilemap.TilemapObject.TilemapSprite.Shadow);
-                curTurnX = lastShadowX;
-                curTurnY = lastShadowY;
-                isShadowDrawn = true;
-            } else {
+                if(game.IsRoller()){
+                    Tilemap.TilemapObject.TilemapSprite tilemapSprite = game.IsFirstPlayerTurn()? Tilemap.TilemapObject.TilemapSprite.Blue: Tilemap.TilemapObject.TilemapSprite.Red;
+                    DrawRectangle(figureWidth, figureHeight, lastShadowX, lastShadowY, tilemapSprite); 
+                    if(!game.isSameSprites(lastShadowX, lastShadowY, player.GetTileState())){
+                        game.addRollerCell();
+                        player.AddPoints(1); 
+                        game.AddFigure(player, lastShadowX, lastShadowY, figureWidth, figureHeight);
+                        game.TetrisCheck(); 
+                    }
+                    curTurnX = lastShadowX;
+                    curTurnY = lastShadowY;
+                    isShadowDrawn = false;
+                    if(game.isRollerAll()){
+                        resetRoller(tilemapSprite);
+                    }
+                }
+                else{
+                    DrawRectangle(figureWidth, figureHeight, lastShadowX, lastShadowY, Tilemap.TilemapObject.TilemapSprite.Shadow);
+                    curTurnX = lastShadowX;
+                    curTurnY = lastShadowY;
+                    isShadowDrawn = true;
+                }
+            }
+            else{
                 lastShadowX = curTurnX = -1;
                 lastShadowY = curTurnY = -1;
                 isShadowDrawn = false;
@@ -300,6 +379,7 @@ public class Testing : MonoBehaviour {
                     wrongSound.Play();
                 }
                 Draggable.throwBack = true;
+                closeRoller = true;
                 if(singleMode)
                     UITutorial.closePanel = true;
                 return;   
@@ -318,6 +398,7 @@ public class Testing : MonoBehaviour {
         //if figure is placed incorrectly? throw it back
         if(!game.CheckFigure(player, x, y, figureWidth, figureHeight)){
             Draggable.throwBack = true;
+            closeRoller = true;
             if(!isFirst && SoundManager.isSoundEffectsOn){
                 wrongSound.Play();
             }
@@ -344,6 +425,7 @@ public class Testing : MonoBehaviour {
         game.ChangeTurn(ref tilemapSprite);
         game.BonusUpdate(tilemap);
         Draggable.throwBack = true;
+        closeRoller = true;
         //and create next
         CreateNextFigure(game.GetNum(1, 7), game.GetNum(1, 7));
         UITutorial.changeColorPanel = true;
