@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Threading;
 
 
 public class Draggable : MonoBehaviour
@@ -8,6 +9,7 @@ public class Draggable : MonoBehaviour
     private Vector3 mousePositionOffset;
     public static BoxCollider2D m_collider;
     public static bool throwBack = false;
+    public static bool deleteColider = false;
     public static int height;
     public static int width;
 
@@ -24,6 +26,11 @@ public class Draggable : MonoBehaviour
             throwBack = false;
         } else {
             Testing.position = transform.position;
+        }
+
+        if(deleteColider){
+            m_collider.enabled = false;
+            ThrowFigureBack();
         }
     }
 
@@ -51,10 +58,20 @@ public class Draggable : MonoBehaviour
         transform.position = new Vector3(x, y, 0);
         if(!UITutorial.gm.GetCurPlayer().IsUpperPlayer() || !UITutorial.singleMode)
             UITutorial.openPanel = true;
+
+        if(m_collider.enabled == false){
+            StartCoroutine(LetRed());
+        }
     }
 
     //change figure's collider according to its size
     public static void ChangeCollider(int x, int y){
         m_collider.offset = new Vector2(x / 2, y / 2);
+    }
+
+    IEnumerator LetRed(){
+        yield return new WaitForSeconds(1);
+        deleteColider = false;
+        m_collider.enabled = true;
     }
 }

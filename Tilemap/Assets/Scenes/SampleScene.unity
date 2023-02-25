@@ -5408,7 +5408,7 @@ MonoBehaviour:
   endSound: {fileID: 848276894}
   changeFigSound: {fileID: 2013098307}
   wrongSound: {fileID: 1393290319}
-  minBonusCount: -10
+  minBonusCount: 0
 --- !u!1 &2042397026
 GameObject:
   m_ObjectHideFlags: 0

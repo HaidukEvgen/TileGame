@@ -181,6 +181,7 @@ public class Testing : MonoBehaviour {
     }
 
     private void resetRoller(Tilemap.TilemapObject.TilemapSprite tilemapSprite){
+        Draggable.deleteColider = true;
         game.ResetRoller();
         game.ChangeTurn(ref tilemapSprite);
         game.BonusUpdate(tilemap);
