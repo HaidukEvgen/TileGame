@@ -19,6 +19,8 @@ public class UITutorial : MonoBehaviour{
     public GameObject tutorialObject;
     public GameObject arrow;
     public GameObject click;
+    public GameObject bombButton;
+    public GameObject rollerButton;
 
     public GameObject startPanel;
     public GameObject bonusPanel;
@@ -28,9 +30,10 @@ public class UITutorial : MonoBehaviour{
 
     private bool canClick = false;
 
-    private int MAX_NUM_CALL = 6;
+    private int MAX_NUM_CALL = 5;
 
-    private int numInvoke = 0;
+    public static int numInvoke = 0;
+    public static bool openBonuses = false;
     
     void Start()
     {
@@ -87,6 +90,13 @@ public class UITutorial : MonoBehaviour{
         if(gm.GetCurPlayer().IsUpperPlayer() && singleMode){
             closeTutorial();
         }
+
+        if(openBonuses){
+            openBonuses = false;
+            if(!isOn){
+                TurnButtons(true);
+            }
+        }
     }
 
     private void openTutorial(bool canOpen){
@@ -134,5 +144,13 @@ public class UITutorial : MonoBehaviour{
         if(numInvoke == 2){
             UpdateText();
         }
+        else if(numInvoke == 6){
+            TurnButtons(true);
+        }
+    }
+
+    private void TurnButtons(bool how){
+        bombButton.GetComponent<Button>().interactable = how;
+        rollerButton.GetComponent<Button>().interactable = how;
     }
 }

@@ -59,6 +59,7 @@ public class SceneLoader : MonoBehaviour
     public void StartGameOnePlayer(){
         SceneManager.LoadScene("SampleScene");
         PlayerPrefs.SetInt("GameMode", 1);
+        UITutorial.numInvoke  = 0;
     }
 
     public void OpenSettings(){

@@ -202,7 +202,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1588414}
   m_OnClick:
     m_PersistentCalls:
@@ -4141,7 +4141,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1716847384}
   m_OnClick:
     m_PersistentCalls:
@@ -5443,6 +5443,8 @@ MonoBehaviour:
   tutorialObject: {fileID: 1790336169}
   arrow: {fileID: 1423201687}
   click: {fileID: 1530608119}
+  bombButton: {fileID: 1588411}
+  rollerButton: {fileID: 1716847381}
   startPanel: {fileID: 2071596710}
   bonusPanel: {fileID: 388971594}
 --- !u!4 &2042397028

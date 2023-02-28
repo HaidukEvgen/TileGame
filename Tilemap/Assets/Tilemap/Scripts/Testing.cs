@@ -42,7 +42,6 @@ public class Testing : MonoBehaviour {
     public float CELL_SIZE;
 
     private bool singleMode;
-    public static bool closeRoller = false;
 
     private void Start() {
         Input.multiTouchEnabled = false; 
@@ -118,11 +117,6 @@ public class Testing : MonoBehaviour {
             setRoller();
         }
 
-        if(closeRoller){
-            closeRoller = false;
-            if(game.IsRoller())
-                resetRoller(game.IsFirstPlayerTurn()? Tilemap.TilemapObject.TilemapSprite.Blue: Tilemap.TilemapObject.TilemapSprite.Red);
-        } 
         /*
         if (Input.GetKeyDown(KeyCode.P)) {
             tilemap.Save();
@@ -185,7 +179,7 @@ public class Testing : MonoBehaviour {
         game.ResetRoller();
         game.ChangeTurn(ref tilemapSprite);
         game.BonusUpdate(tilemap);
-        Draggable.throwBack = true;
+        //Draggable.throwBack = true;
         CreateNextFigure(game.GetNum(1, 7), game.GetNum(1, 7));
         UITutorial.changeColorPanel = true;
     }
@@ -247,7 +241,7 @@ public class Testing : MonoBehaviour {
                 lastShadowY = curTurnY = y;
                 isShadowDrawn = false;
 
-                if(game.isRollerAll()){
+                if(game.isRollerAll() || !game.CanBePlaced(1, 1)){
                     resetRoller(tilemapSprite);
                 }
 
@@ -274,7 +268,7 @@ public class Testing : MonoBehaviour {
                     curTurnX = lastShadowX;
                     curTurnY = lastShadowY;
                     isShadowDrawn = false;
-                    if(game.isRollerAll()){
+                    if(game.isRollerAll() || !game.CanBePlaced(1, 1)){
                         resetRoller(tilemapSprite);
                     }
                 }
@@ -367,7 +361,9 @@ public class Testing : MonoBehaviour {
 
         if(!game.GetCurPlayer().IsFirstTurn()){
             if(!game.CanBePlaced(figureWidth, figureHeight) && !game.CanBePlaced(figureHeight, figureWidth)){
-                game.ChangeTurn(ref tilemapSprite);
+                Draggable.throwBack = true;
+                if(!Draggable.notChange)
+                    game.ChangeTurn(ref tilemapSprite);
                 game.BonusUpdate(tilemap);
                 CreateNextFigure(game.GetNum(1, 7), game.GetNum(1, 7));
                 UITutorial.changeColorPanel = true;
@@ -379,8 +375,6 @@ public class Testing : MonoBehaviour {
                 if(SoundManager.isSoundEffectsOn){
                     wrongSound.Play();
                 }
-                Draggable.throwBack = true;
-                closeRoller = true;
                 if(singleMode)
                     UITutorial.closePanel = true;
                 return;   
@@ -399,7 +393,6 @@ public class Testing : MonoBehaviour {
         //if figure is placed incorrectly? throw it back
         if(!game.CheckFigure(player, x, y, figureWidth, figureHeight)){
             Draggable.throwBack = true;
-            closeRoller = true;
             if(!isFirst && SoundManager.isSoundEffectsOn){
                 wrongSound.Play();
             }
@@ -423,10 +416,10 @@ public class Testing : MonoBehaviour {
         game.TetrisCheck();  
 
         //change players
-        game.ChangeTurn(ref tilemapSprite);
-        game.BonusUpdate(tilemap);
         Draggable.throwBack = true;
-        closeRoller = true;
+        if(!Draggable.notChange)
+            game.ChangeTurn(ref tilemapSprite);
+        game.BonusUpdate(tilemap);
         //and create next
         CreateNextFigure(game.GetNum(1, 7), game.GetNum(1, 7));
         UITutorial.changeColorPanel = true;
@@ -529,6 +522,10 @@ public class Testing : MonoBehaviour {
             UITutorial.closePanel = true;
         }
         UITutorial.changeColorPanel = true;
+
+        if(!game.GetCurPlayer().IsFirstTurn()){
+            UITutorial.openBonuses = true;
+        }
     }
 
     private void MakeFirstTurnPC(int figureWidth, int figureHeight, ref Player player, ref Tilemap.TilemapObject.TilemapSprite tilemapSprite){

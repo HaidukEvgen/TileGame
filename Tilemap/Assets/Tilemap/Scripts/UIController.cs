@@ -44,7 +44,6 @@ public class UIController : MonoBehaviour
     public static bool useBomb = false;
     public static bool useRoller = false;
     public static bool IsendGamePanel = false;
-
     private int maxRound;
 
     public int minBonusCount = 0;
@@ -66,7 +65,7 @@ public class UIController : MonoBehaviour
             roundEnd(gm.round);
             notOpenRoundPanel = false;
             UITutorial.closePanel = true;
-        }
+        } 
     }
 
     public void PauseGame(){

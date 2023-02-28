@@ -86,7 +86,7 @@ public class Game {
     }
 
     public bool isRollerAll(){
-        if(this.rollerDraw == 8){
+        if(this.rollerDraw > GetNum(4, 8)){
             return true;
         } 
         return false;
