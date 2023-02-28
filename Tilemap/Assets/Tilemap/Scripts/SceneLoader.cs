@@ -22,7 +22,8 @@ public class SceneLoader : MonoBehaviour
     public Text maptxt;
 
     void Start(){
-        round = PlayerPrefs.GetInt("Rounds", round);
+        round = PlayerPrefs.GetInt("Rounds", 3);
+        PlayerPrefs.SetInt("Tutorial", 1);
         roundtxt.text = "Rounds: " + round.ToString();
         roundSlider.value = (float)round / 10f  - 0.1f;
         mapSlider.value = PlayerPrefs.GetFloat("MapSliderVal" , 0.75f);
@@ -71,7 +72,7 @@ public class SceneLoader : MonoBehaviour
         if(SoundManager.isSoundEffectsOn != true){
             effectsOn.isOn = false; 
         }
-        if(PlayerPrefs.GetInt("Tutorial", 0) == 1){
+        if(PlayerPrefs.GetInt("Tutorial", 1) == 1){
             tutorialOn.isOn = true;
         }
     }
