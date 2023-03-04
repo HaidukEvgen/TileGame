@@ -20,6 +20,7 @@ public class SoundManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
             firstOn = false;
             sound.Play();
+            PlayerPrefs.SetInt("Tutorial", 1);
         }
         else{
             Destroy(gameObject);
@@ -28,7 +29,7 @@ public class SoundManager : MonoBehaviour
 
     void Update(){
         if(startPlay){
-            sound.Play();
+            sound.Play();  
             startPlay = false;
             isOn = true;
         }

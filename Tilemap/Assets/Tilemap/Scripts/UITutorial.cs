@@ -55,6 +55,10 @@ public class UITutorial : MonoBehaviour{
                 tutorialPanel.color = blue_player_2;
             }
         }
+        if(isOn)
+            openTutorial(true);
+
+        numInvoke = 0;
     }
 
     // Update is called once per frame
